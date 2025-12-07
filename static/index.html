@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accelerator - Discover Opportunities</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-hover: #f1f5f9;
+            --text: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-light: #eff6ff;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --purple: #8b5cf6;
+            --purple-light: #ede9fe;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                --bg-card: #1e293b;
+                --bg-hover: #334155;
+                --text: #f1f5f9;
+                --text-secondary: #94a3b8;
+                --text-muted: #64748b;
+                --border: #334155;
+                --border-light: #1e293b;
+                --accent-light: rgba(59, 130, 246, 0.15);
+                --success-light: rgba(16, 185, 129, 0.15);
+                --warning-light: rgba(245, 158, 11, 0.15);
+                --danger-light: rgba(239, 68, 68, 0.15);
+                --purple-light: rgba(139, 92, 246, 0.15);
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s ease;
+        }
+
+        .nav a:hover { background: var(--bg-hover); color: var(--text); }
+        .nav a.active { background: var(--accent-light); color: var(--accent); }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--success-light);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Scan Box */
+        .scan-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 8px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .scan-inner {
+            display: flex;
+            gap: 8px;
+        }
+
+        .category-selector {
+            flex: 1;
+            position: relative;
+        }
+
+        .category-btn {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.15s ease;
+        }
+
+        .category-btn:hover { border-color: var(--text-muted); }
+        .category-btn:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+
+        .category-btn .selected {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-btn .icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .category-btn .chevron {
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .category-selector.open .chevron { transform: rotate(180deg); }
+
+        /* Dropdown */
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 100;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .category-selector.open .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-section { padding: 8px; border-bottom: 1px solid var(--border-light); }
+        .dropdown-section:last-child { border-bottom: none; }
+
+        .dropdown-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 12px 4px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s ease;
+        }
+
+        .dropdown-item:hover { background: var(--bg-hover); }
+        .dropdown-item.selected { background: var(--accent-light); color: var(--accent); }
+
+        .dropdown-item .item-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--bg);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .dropdown-item.selected .item-icon { background: var(--accent); color: white; }
+
+        .dropdown-item .item-text { flex: 1; }
+        .dropdown-item .item-desc { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+        .scan-btn {
+            padding: 0 32px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .scan-btn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .scan-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Progress */
+        .progress-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .progress-card.visible { display: block; }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-title { font-size: 14px; font-weight: 600; }
+
+        .progress-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--purple) 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .hero h1 { font-size: 36px; }
+            .scan-inner { flex-direction: column; }
+            .scan-btn { width: 100%; justify-content: center; padding: 16px; }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Search & Filters */
+        .controls-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.15s ease;
+        }
+
+        .search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+        .search-input::placeholder { color: var(--text-muted); }
+
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pill {
+            padding: 8px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .pill:hover { background: var(--bg-hover); color: var(--text); }
+        .pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .pill .count { margin-left: 4px; opacity: 0.7; }
+
+        /* Results */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .results-title { font-size: 18px; font-weight: 700; }
+        .results-meta { font-size: 14px; color: var(--text-secondary); }
+
+        .view-toggle {
+            display: flex;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .view-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .view-btn:hover { background: var(--bg-hover); }
+        .view-btn.active { background: var(--accent); color: white; }
+
+        /* Opportunity Cards */
+        .opportunities { display: flex; flex-direction: column; gap: 8px; }
+        .opportunities.grid-view { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        @media (max-width: 768px) { .opportunities.grid-view { grid-template-columns: 1fr; } }
+
+        .opp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .opportunities.grid-view .opp-card {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px;
+        }
+
+        .opp-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+        .opp-content { flex: 1; min-width: 0; }
+
+        .opp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+
+        .opp-source {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .opp-score {
+            padding: 4px 8px;
+            background: var(--bg);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .opp-score.high { background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%); color: white; }
+
+        .opp-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .opp-company {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .opp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .opp-tag {
+            padding: 4px 10px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Empty & Loading */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+        }
+
+        .empty-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .empty-text { font-size: 14px; color: var(--text-secondary); }
+
+        .loading-state { text-align: center; padding: 48px 24px; }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .page-btn {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .page-btn:hover:not(:disabled) { background: var(--bg-hover); }
+        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .page-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .page-info { font-size: 14px; color: var(--text-secondary); }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text);
+            color: var(--bg);
+            padding: 14px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 32px 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 48px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">
+            <div class="logo-icon">⚡</div>
+            Accelerator
+        </a>
+        <nav class="nav">
+            <a href="/" class="active">Discover</a>
+            <a href="/profile.html">Profile</a>
+            <a href="/tracker.html">Tracker</a>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Live
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Find opportunities.<br>Faster.</h1>
+            <p>Discover jobs, grants, scholarships, and more from 678+ live sources in seconds.</p>
+        </section>
+
+        <!-- Scan Box -->
+        <div class="scan-card">
+            <div class="scan-inner">
+                <div class="category-selector" id="categorySelector">
+                    <button class="category-btn" onclick="toggleDropdown()">
+                        <span class="selected">
+                            <span class="icon" id="selectedIcon">⚡</span>
+                            <span id="selectedLabel">All Sources</span>
+                        </span>
+                        <span class="chevron">▼</span>
+                    </button>
+                    <div class="dropdown" id="dropdown">
+                        <div class="dropdown-section">
+                            <button class="dropdown-item selected" data-batch="all" onclick="selectCategory('all', 'All Sources', '⚡')">
+                                <span class="item-icon">⚡</span>
+                                <span class="item-text">All Sources<div class="item-desc">Scan all 678+ sources</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Jobs</div>
+                            <button class="dropdown-item" data-batch="1" onclick="selectCategory(1, 'Remote Jobs', '🌍')">
+                                <span class="item-icon">🌍</span>
+                                <span class="item-text">Remote Jobs<div class="item-desc">RemoteOK, HN, Arbeitnow</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="2" onclick="selectCategory(2, 'Tech Curated', '💻')">
+                                <span class="item-icon">💻</span>
+                                <span class="item-text">Tech Curated<div class="item-desc">Python, Laravel, GitHub</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="3" onclick="selectCategory(3, 'Startups', '🚀')">
+                                <span class="item-icon">🚀</span>
+                                <span class="item-text">Startup Jobs<div class="item-desc">CryptoJobs, BuiltIn, Web3</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="17" onclick="selectCategory(17, 'Major Boards', '📋')">
+                                <span class="item-icon">📋</span>
+                                <span class="item-text">Major Boards<div class="item-desc">Indeed, Glassdoor, ZipRecruiter</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Freelance</div>
+                            <button class="dropdown-item" data-batch="4" onclick="selectCategory(4, 'Freelance & Gigs', '💼')">
+                                <span class="item-icon">💼</span>
+                                <span class="item-text">Freelance & Gigs<div class="item-desc">Guru, Arc.dev, Turing</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Education</div>
+                            <button class="dropdown-item" data-batch="5" onclick="selectCategory(5, 'Scholarships', '🎓')">
+                                <span class="item-icon">🎓</span>
+                                <span class="item-text">Scholarships<div class="item-desc">Scholarships360, Bold.org</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="6" onclick="selectCategory(6, 'International', '🌐')">
+                                <span class="item-icon">🌐</span>
+                                <span class="item-text">International<div class="item-desc">Chevening, DAAD, Commonwealth</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="11" onclick="selectCategory(11, 'Fellowships', '🏆')">
+                                <span class="item-icon">🏆</span>
+                                <span class="item-text">Fellowships<div class="item-desc">Echoing Green, Ashoka, Gates</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Funding</div>
+                            <button class="dropdown-item" data-batch="8" onclick="selectCategory(8, 'Grants', '💰')">
+                                <span class="item-icon">💰</span>
+                                <span class="item-text">Grants<div class="item-desc">Grants.gov, Mozilla, Gitcoin</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="9" onclick="selectCategory(9, 'VC & Hackathons', '🎪')">
+                                <span class="item-icon">🎪</span>
+                                <span class="item-text">VC & Hackathons<div class="item-desc">Y Combinator, Devpost, MLH</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="10" onclick="selectCategory(10, 'Accelerators', '⚡')">
+                                <span class="item-icon">⚡</span>
+                                <span class="item-text">Accelerators<div class="item-desc">Techstars, 500 Global, Google</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Regional</div>
+                            <button class="dropdown-item" data-batch="7" onclick="selectCategory(7, 'Africa', '🌍')">
+                                <span class="item-icon">🌍</span>
+                                <span class="item-text">Africa<div class="item-desc">OFA, VC4Africa, Tony Elumelu</div></span>
+                            </button>
+                            <button class="dropdown-item" data-batch="14" onclick="selectCategory(14, 'Europe', '🇪🇺')">
+                                <span class="item-icon">🇪🇺</span>
+                                <span class="item-text">Europe<div class="item-desc">EU Careers, EURAXESS</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Compete</div>
+                            <button class="dropdown-item" data-batch="15" onclick="selectCategory(15, 'Competitions', '🏅')">
+                                <span class="item-icon">🏅</span>
+                                <span class="item-text">Competitions<div class="item-desc">Kaggle, TopCoder, HackerEarth</div></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="dropdown-title">Diversity</div>
+                            <button class="dropdown-item" data-batch="12" onclick="selectCategory(12, 'DEI Jobs', '🤝')">
+                                <span class="item-icon">🤝</span>
+                                <span class="item-text">DEI Jobs<div class="item-desc">PowerToFly, DiversifyTech</div></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button class="scan-btn" id="scanBtn" onclick="startScan()">
+                    <span id="scanText">Scan</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-card" id="progressCard">
+            <div class="progress-header">
+                <div class="progress-title" id="progressTitle">🔍 Scanning...</div>
+                <div class="progress-stats">
+                    <span id="progressFound">0</span> found
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="statTotal">0</div>
+                <div class="stat-label">Found</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statBatches">0/31</div>
+                <div class="stat-label">Batches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statSources">0</div>
+                <div class="stat-label">Sources</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statTime">0s</div>
+                <div class="stat-label">Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statProgress">0%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="controls-card">
+            <div class="search-row">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search by title, company, or keywords...">
+            </div>
+            <div class="filter-pills">
+                <button class="pill active" data-type="all" onclick="filterBy('all')">All<span class="count" id="countAll">0</span></button>
+                <button class="pill" data-type="job" onclick="filterBy('job')">Jobs<span class="count" id="countJob">0</span></button>
+                <button class="pill" data-type="scholarship" onclick="filterBy('scholarship')">Scholarships<span class="count" id="countScholarship">0</span></button>
+                <button class="pill" data-type="grant" onclick="filterBy('grant')">Grants<span class="count" id="countGrant">0</span></button>
+                <button class="pill" data-type="hackathon" onclick="filterBy('hackathon')">Hackathons<span class="count" id="countHackathon">0</span></button>
+                <button class="pill" data-type="accelerator" onclick="filterBy('accelerator')">Startups<span class="count" id="countAccelerator">0</span></button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-section">
+            <div class="results-header">
+                <div class="results-title">Results</div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="list" onclick="toggleView('list')">☰ List</button>
+                        <button class="view-btn" data-view="grid" onclick="toggleView('grid')">⊞ Grid</button>
+                    </div>
+                    <div class="results-meta" id="resultsMeta">Select a batch and scan</div>
+                </div>
+            </div>
+
+            <div class="opportunities" id="opportunitiesContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">◎</div>
+                    <div class="empty-title">Ready to scan</div>
+                    <div class="empty-text">Choose sources above and click Scan to discover opportunities</div>
+                </div>
+            </div>
+
+            <div class="pagination" id="pagination" style="display: none;">
+                <button class="page-btn" id="prevPage" onclick="changePage(-1)">Previous</button>
+                <div class="page-info" id="pageInfo">Page 1 of 1</div>
+                <button class="page-btn" id="nextPage" onclick="changePage(1)">Next</button>
+            </div>
+        </div>
+
+        <footer>Built by David Givondo · Precifarm AI Ltd</footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // State
+        let opportunities = [];
+        let filteredOpportunities = [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let selectedBatch = 'all';
+        let isScanning = false;
+        let completedBatches = new Set();
+        let totalTime = 0;
+        let currentPage = 1;
+        const itemsPerPage = 24;
+
+        const BATCHES = {
+            1: { name: 'Remote Jobs', desc: 'RemoteOK, HackerNews, Arbeitnow', sources: 7 },
+            2: { name: 'Tech Curated', desc: 'Python.org, LaraJobs, GitHub', sources: 7 },
+            3: { name: 'Startups', desc: 'CryptoJobs, BuiltIn, Web3Career', sources: 7 },
+            4: { name: 'Freelance', desc: 'Guru, Arc.dev, Turing', sources: 6 },
+            5: { name: 'Scholarships', desc: 'Scholarships360, Bold.org, Fulbright', sources: 5 },
+            6: { name: 'Intl Scholar', desc: 'Chevening, DAAD, Commonwealth', sources: 4 },
+            7: { name: 'Africa', desc: 'OFA, VC4Africa, TonyElumelu', sources: 4 },
+            8: { name: 'Grants', desc: 'Grants.gov, Mozilla, Gitcoin', sources: 6 },
+            9: { name: 'VC & Hacks', desc: 'Y Combinator, Devpost, MLH', sources: 6 },
+            10: { name: 'Accelerators', desc: 'Techstars, 500 Global, Google', sources: 7 },
+            11: { name: 'Fellowships', desc: 'EchoingGreen, Ashoka, Gates', sources: 6 },
+            12: { name: 'Diversity', desc: 'PowerToFly, DiversifyTech', sources: 5 },
+            13: { name: 'Platforms', desc: 'Triplebyte, Hired, Remote.io', sources: 6 },
+            14: { name: 'Regional', desc: 'EU Careers, EURAXESS', sources: 7 },
+            15: { name: 'Competitions', desc: 'Kaggle, TopCoder, HackerEarth', sources: 5 },
+            16: { name: 'Lang-Specific', desc: 'Django, Ruby, iOS', sources: 6 },
+            17: { name: 'Major Boards', desc: 'Indeed, Glassdoor, ZipRecruiter', sources: 7 },
+            18: { name: 'Startup Eco', desc: 'ProductHunt, IndieHackers', sources: 7 },
+            19: { name: 'VC Portfolio', desc: 'YC Jobs, Sequoia, a16z', sources: 4 },
+            20: { name: 'Gigs Extended', desc: 'Fiverr, 99designs', sources: 4 },
+            21: { name: 'Challenges', desc: 'Challenge.gov, HeroX, XPRIZE', sources: 5 },
+            22: { name: 'Code Platforms', desc: 'HackerRank, StackOverflow', sources: 4 },
+            23: { name: 'Job Platforms', desc: 'Monster, CareerBuilder', sources: 4 },
+            24: { name: 'Tech Careers', desc: 'Levels.fyi, KeyValues', sources: 4 },
+            25: { name: 'Global Jobs', desc: 'TechInAsia, JapanDev', sources: 5 },
+            26: { name: 'ATS Jobs', desc: 'Lever, Greenhouse, Workable', sources: 5 },
+            27: { name: 'EU Tech', desc: 'GermanTechJobs, SwissDevJobs', sources: 5 },
+            28: { name: 'Remote Extended', desc: 'RemoteLeaf, DailyRemote', sources: 5 },
+            29: { name: 'Curated Startups', desc: 'NoWhiteboard, Underdog.io', sources: 5 },
+            30: { name: 'Lang Extended', desc: 'Golang, Rust, Vue.js Jobs', sources: 5 },
+            31: { name: 'Impact', desc: 'TechJobsForGood, Idealist', sources: 4 }
+        };
+        const TOTAL_BATCHES = 31;
+
+        // Toggle dropdown
+        function toggleDropdown() {
+            document.getElementById('categorySelector').classList.toggle('open');
+        }
+
+        document.addEventListener('click', (e) => {
+            const selector = document.getElementById('categorySelector');
+            if (!selector.contains(e.target)) selector.classList.remove('open');
+        });
+
+        // Select category
+        function selectCategory(batch, label, icon) {
+            selectedBatch = batch;
+            document.getElementById('selectedLabel').textContent = label;
+            document.getElementById('selectedIcon').textContent = icon;
+            
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.batch === String(batch));
+            });
+            
+            document.getElementById('categorySelector').classList.remove('open');
+        }
+
+        // Start scan
+        async function startScan() {
+            if (isScanning) return;
+            
+            isScanning = true;
+            currentPage = 1;
+            const btn = document.getElementById('scanBtn');
+            const scanText = document.getElementById('scanText');
+            
+            btn.disabled = true;
+            scanText.innerHTML = '<div class="spinner"></div>';
+            
+            const container = document.getElementById('opportunitiesContainer');
+            const progressCard = document.getElementById('progressCard');
+            
+            totalTime = 0;
+            let sourcesCount = 0;
+            
+            try {
+                if (selectedBatch === 'all') {
+                    progressCard.classList.add('visible');
+                    opportunities = [];
+                    
+                    for (let batch = 1; batch <= TOTAL_BATCHES; batch++) {
+                        const batchInfo = BATCHES[batch];
+                        
+                        document.getElementById('progressTitle').textContent = `🔍 ${batchInfo.name} (${batch}/${TOTAL_BATCHES})`;
+                        document.getElementById('progressFill').style.width = `${((batch - 1) / TOTAL_BATCHES) * 100}%`;
+                        document.getElementById('progressFound').textContent = opportunities.length;
+                        
+                        container.innerHTML = `
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <div style="font-weight:600">Batch ${batch}/${TOTAL_BATCHES}: ${batchInfo.name}</div>
+                                <div style="color:var(--text-secondary);font-size:13px">${batchInfo.desc}</div>
+                            </div>
+                        `;
+                        
+                        try {
+                            const response = await fetch(`/api/v1/scan/batch/${batch}`);
+                            const data = await response.json();
+                            
+                            if (data.success && data.opportunities) {
+                                opportunities = opportunities.concat(data.opportunities);
+                                completedBatches.add(batch);
+                                totalTime += data.duration_seconds || 0;
+                                sourcesCount += data.sources_successful || 0;
+                                updateStats();
+                            }
+                        } catch (e) {
+                            console.error(`Batch ${batch} failed:`, e);
+                        }
+                        
+                        document.getElementById('progressFill').style.width = `${(batch / TOTAL_BATCHES) * 100}%`;
+                    }
+                    
+                    progressCard.classList.remove('visible');
+                    
+                } else {
+                    container.innerHTML = `
+                        <div class="loading-state">
+                            <div class="loading-spinner"></div>
+                            <div style="font-weight:600">${BATCHES[selectedBatch].name}</div>
+                        </div>
+                    `;
+                    
+                    const response = await fetch(`/api/v1/scan/batch/${selectedBatch}`);
+                    const data = await response.json();
+                    
+                    if (data.success && data.opportunities) {
+                        opportunities = data.opportunities;
+                        completedBatches.add(parseInt(selectedBatch));
+                        totalTime = data.duration_seconds || 0;
+                        sourcesCount = data.sources_successful || 0;
+                    } else {
+                        throw new Error(data.error || 'Scan failed');
+                    }
+                }
+                
+                updateStats();
+                updateCounts();
+                renderOpportunities();
+                
+                localStorage.setItem('accelerator_cache', JSON.stringify({
+                    opportunities,
+                    timestamp: Date.now(),
+                    completedBatches: Array.from(completedBatches)
+                }));
+                
+                showToast(`🎉 Found ${opportunities.length.toLocaleString()} opportunities!`, 'success');
+                
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <div class="empty-title">Scan failed</div>
+                        <div class="empty-text">${error.message}</div>
+                    </div>
+                `;
+                showToast('Scan failed', 'error');
+            }
+            
+            isScanning = false;
+            btn.disabled = false;
+            scanText.textContent = 'Scan';
+        }
+
+        function updateStats() {
+            const total = opportunities.length;
+            const completed = completedBatches.size;
+            const progress = completed > 0 ? Math.round((completed / TOTAL_BATCHES) * 100) : 0;
+            
+            let totalSources = 0;
+            completedBatches.forEach(id => {
+                if (BATCHES[id]) totalSources += BATCHES[id].sources;
+            });
+            
+            document.getElementById('statTotal').textContent = total.toLocaleString();
+            document.getElementById('statBatches').textContent = `${completed}/${TOTAL_BATCHES}`;
+            document.getElementById('statSources').textContent = totalSources;
+            document.getElementById('statTime').textContent = totalTime > 60 ? `${Math.floor(totalTime / 60)}m` : `${totalTime.toFixed(1)}s`;
+            document.getElementById('statProgress').textContent = `${progress}%`;
+        }
+
+        function updateCounts() {
+            const data = filteredOpportunities.length ? filteredOpportunities : opportunities;
+            const counts = { all: data.length };
+            
+            data.forEach(opp => {
+                const type = opp.opportunity_type || 'other';
+                counts[type] = (counts[type] || 0) + 1;
+            });
+            
+            document.getElementById('countAll').textContent = counts.all || 0;
+            document.getElementById('countJob').textContent = counts.job || 0;
+            document.getElementById('countScholarship').textContent = counts.scholarship || 0;
+            document.getElementById('countGrant').textContent = counts.grant || 0;
+            document.getElementById('countHackathon').textContent = counts.hackathon || 0;
+            document.getElementById('countAccelerator').textContent = counts.accelerator || 0;
+        }
+
+        function filterBy(type) {
+            currentFilter = type;
+            currentPage = 1;
+            
+            document.querySelectorAll('.pill').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+            
+            applyFilters();
+            renderOpportunities();
+        }
+
+        function applyFilters() {
+            filteredOpportunities = opportunities.filter(opp => {
+                const matchesType = currentFilter === 'all' || opp.opportunity_type === currentFilter;
+                const matchesSearch = !currentSearch || 
+                    (opp.title && opp.title.toLowerCase().includes(currentSearch)) ||
+                    (opp.company && opp.company.toLowerCase().includes(currentSearch));
+                return matchesType && matchesSearch;
+            });
+        }
+
+        function changePage(delta) {
+            const filtered = currentFilter === 'all' ? opportunities : opportunities.filter(o => o.opportunity_type === currentFilter);
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            const newPage = currentPage + delta;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderOpportunities();
+                document.querySelector('.results-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function renderOpportunities() {
+            const container = document.getElementById('opportunitiesContainer');
+            const pagination = document.getElementById('pagination');
+            
+            if (!filteredOpportunities.length && opportunities.length) applyFilters();
+            const filtered = filteredOpportunities.length ? filteredOpportunities : opportunities;
+            
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = Math.min(startIdx + itemsPerPage, filtered.length);
+            const pageItems = filtered.slice(startIdx, endIdx);
+            
+            document.getElementById('resultsMeta').textContent = filtered.length > 0 
+                ? `${startIdx + 1}–${endIdx} of ${filtered.length}` 
+                : '0 results';
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">${currentSearch ? '🔍' : '◎'}</div>
+                        <div class="empty-title">${currentSearch ? `No results for "${currentSearch}"` : 'No results'}</div>
+                        <div class="empty-text">${currentSearch ? 'Try different keywords' : 'Try a different filter or scan more batches'}</div>
+                    </div>
+                `;
+                pagination.style.display = 'none';
+                return;
+            }
+            
+            container.innerHTML = pageItems.map(opp => `
+                <div class="opp-card" onclick="window.open('${esc(opp.apply_url || '#')}', '_blank')">
+                    <div class="opp-content">
+                        <div class="opp-header">
+                            <div class="opp-source">${esc(opp.source || 'Unknown')}</div>
+                            <div class="opp-score ${(opp.match_score || 0) >= 85 ? 'high' : ''}">${opp.match_score || 80}%</div>
+                        </div>
+                        <div class="opp-title">${esc(opp.title || 'Untitled')}</div>
+                        <div class="opp-company">${esc(opp.company || 'Unknown')}</div>
+                    </div>
+                    <div class="opp-tags">
+                        <span class="opp-tag">${esc(opp.location || 'Remote')}</span>
+                        <span class="opp-tag">${esc(opp.opportunity_type || 'opportunity')}</span>
+                        ${opp.remote ? '<span class="opp-tag">🌍 Remote</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            if (totalPages > 1) {
+                pagination.style.display = 'flex';
+                document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = currentPage === totalPages;
+                document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            } else {
+                pagination.style.display = 'none';
+            }
+        }
+
+        function esc(text) {
+            if (!text) return '';
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        function toggleView(view) {
+            const container = document.getElementById('opportunitiesContainer');
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+            container.classList.toggle('grid-view', view === 'grid');
+            localStorage.setItem('accelerator_view', view);
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast visible';
+            if (type !== 'info') toast.classList.add(type);
+            setTimeout(() => toast.classList.remove('visible'), 3000);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                currentSearch = e.target.value.toLowerCase().trim();
+                currentPage = 1;
+                applyFilters();
+                renderOpportunities();
+                updateCounts();
+            });
+            
+            // View preference
+            const savedView = localStorage.getItem('accelerator_view') || 'list';
+            toggleView(savedView);
+            
+            // Load cache
+            const cache = localStorage.getItem('accelerator_cache');
+            if (cache) {
+                try {
+                    const data = JSON.parse(cache);
+                    if (data.opportunities && Date.now() - data.timestamp < 3600000) {
+                        opportunities = data.opportunities;
+                        completedBatches = new Set(data.completedBatches || []);
+                        updateStats();
+                        updateCounts();
+                        renderOpportunities();
+                        showToast('Loaded cached results');
+                    }
+                } catch (e) {}
+            }
+        });
+    </script>
+</body>
+</html>

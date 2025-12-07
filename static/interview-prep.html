@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep | Growth Engine</title>
+    <style>
+        :root {
+            --bg: #f5f5f7;
+            --card: #ffffff;
+            --text: #1d1d1f;
+            --text-secondary: #86868b;
+            --border: #e5e5e5;
+            --accent: #0071e3;
+            --green: #34c759;
+            --orange: #ff9500;
+            --red: #ff3b30;
+            --purple: #af52de;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        
+        header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent);
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        .star-banner {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+            border-radius: 20px;
+            padding: 32px;
+            color: white;
+            margin-bottom: 32px;
+        }
+        
+        .star-banner h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .star-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .star-item {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .star-letter {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .star-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .star-desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .categories-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        
+        .category-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        
+        .category-card.active {
+            border-color: var(--accent);
+        }
+        
+        .category-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .category-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .practice-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .question-panel, .answer-panel {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 24px;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .question-card {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .question-category {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .question-tips {
+            background: rgba(0, 113, 227, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .tips-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        
+        .tips-list {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .tips-list li {
+            margin-bottom: 4px;
+            margin-left: 16px;
+        }
+        
+        .answer-textarea {
+            width: 100%;
+            min-height: 200px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .answer-textarea:focus {
+            border-color: var(--accent);
+        }
+        
+        .word-count {
+            text-align: right;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0077ed;
+        }
+        
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .feedback-panel {
+            margin-top: 24px;
+            display: none;
+        }
+        
+        .feedback-panel.active {
+            display: block;
+        }
+        
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .score-card {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .score-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .star-check {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .star-check-item {
+            flex: 1;
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .star-check-item.complete {
+            background: rgba(52, 199, 89, 0.15);
+            color: var(--green);
+        }
+        
+        .star-check-item.incomplete {
+            background: rgba(255, 149, 0, 0.15);
+            color: var(--orange);
+        }
+        
+        .feedback-list {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .feedback-section {
+            margin-bottom: 16px;
+        }
+        
+        .feedback-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feedback-section-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feedback-section-title.strengths {
+            color: var(--green);
+        }
+        
+        .feedback-section-title.improve {
+            color: var(--orange);
+        }
+        
+        .feedback-item {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            padding-left: 16px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .star-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .practice-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .star-check {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>Accelerator</span>
+        </div>
+        <nav class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/interview-prep.html" class="active">Interview Prep</a>
+            <a href="/analytics.html">Analytics</a>
+            <a href="/auto-apply.html">Auto-Apply</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1>🎯 Interview Prep</h1>
+            <p>Master behavioral interviews with the STAR method</p>
+        </div>
+
+        <div class="star-banner">
+            <h2>The STAR Method</h2>
+            <div class="star-grid">
+                <div class="star-item">
+                    <div class="star-letter">S</div>
+                    <div class="star-name">Situation</div>
+                    <div class="star-desc">Set the scene and context</div>
+                </div>
+                <div class="star-item">
+                    <div class="star-letter">T</div>
+                    <div class="star-name">Task</div>
+                    <div class="star-desc">Describe your responsibility</div>
+                </div>
+                <div class="star-item">
+                    <div class="star-letter">A</div>
+                    <div class="star-name">Action</div>
+                    <div class="star-desc">Explain what YOU did</div>
+                </div>
+                <div class="star-item">
+                    <div class="star-letter">R</div>
+                    <div class="star-name">Result</div>
+                    <div class="star-desc">Share outcomes with metrics</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="categories-section">
+            <h2 class="section-title">Question Categories</h2>
+            <div class="categories-grid" id="categories-grid">
+                <!-- Categories loaded dynamically -->
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <div class="question-panel">
+                <div class="panel-header">
+                    <span class="panel-title">📋 Question</span>
+                    <button class="btn btn-secondary" onclick="loadNewQuestion()">Next Question →</button>
+                </div>
+                
+                <div class="loading" id="question-loading">
+                    <div class="spinner"></div>
+                    <div>Loading question...</div>
+                </div>
+                
+                <div class="question-card" id="question-card">
+                    <span class="question-category" id="question-category">Behavioral</span>
+                    <div class="question-text" id="question-text">
+                        Tell me about a time when you had to lead a team through a difficult project.
+                    </div>
+                    <div class="question-tips">
+                        <div class="tips-title">💡 Tips for this question:</div>
+                        <ul class="tips-list" id="question-tips">
+                            <li>Focus on YOUR leadership actions</li>
+                            <li>Include specific metrics or outcomes</li>
+                            <li>Show how you motivated the team</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="answer-panel">
+                <div class="panel-header">
+                    <span class="panel-title">✍️ Your Answer</span>
+                </div>
+                
+                <textarea class="answer-textarea" id="answer-textarea" placeholder="Type your answer here using the STAR method...&#10;&#10;Situation: In my previous role at...&#10;Task: I was responsible for...&#10;Action: I decided to...&#10;Result: This led to..."></textarea>
+                <div class="word-count"><span id="word-count">0</span> words (aim for 150-300)</div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="analyzeResponse()">
+                        🔍 Analyze Response
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearAnswer()">
+                        Clear
+                    </button>
+                </div>
+                
+                <div class="feedback-panel" id="feedback-panel">
+                    <h3 style="margin-bottom: 16px;">📊 Feedback</h3>
+                    
+                    <div class="score-grid">
+                        <div class="score-card">
+                            <div class="score-value" id="overall-score">--</div>
+                            <div class="score-label">Overall Score</div>
+                        </div>
+                        <div class="score-card">
+                            <div class="score-value" id="content-score">--</div>
+                            <div class="score-label">Content</div>
+                        </div>
+                        <div class="score-card">
+                            <div class="score-value" id="structure-score">--</div>
+                            <div class="score-label">Structure</div>
+                        </div>
+                    </div>
+                    
+                    <div class="star-check" id="star-check">
+                        <div class="star-check-item" id="star-s">S</div>
+                        <div class="star-check-item" id="star-t">T</div>
+                        <div class="star-check-item" id="star-a">A</div>
+                        <div class="star-check-item" id="star-r">R</div>
+                    </div>
+                    
+                    <div class="feedback-list">
+                        <div class="feedback-section">
+                            <div class="feedback-section-title strengths">✅ Strengths</div>
+                            <div id="strengths-list"></div>
+                        </div>
+                        <div class="feedback-section">
+                            <div class="feedback-section-title improve">💡 Areas to Improve</div>
+                            <div id="improve-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        var currentQuestion = null;
+        var selectedCategory = 'all';
+        
+        // Load categories on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategories();
+            loadNewQuestion();
+            
+            // Word count
+            document.getElementById('answer-textarea').addEventListener('input', function() {
+                var words = this.value.trim().split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+                document.getElementById('word-count').textContent = words;
+            });
+        });
+        
+        function loadCategories() {
+            fetch('/api/v1/interview-prep/categories')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.success) {
+                        var grid = document.getElementById('categories-grid');
+                        var html = '<div class="category-card active" data-category="all" onclick="selectCategory(this, \'all\')"><div class="category-icon">🌐</div><div class="category-name">All Questions</div><div class="category-desc">Practice everything</div></div>';
+                        
+                        data.data.categories.forEach(function(cat) {
+                            html += '<div class="category-card" data-category="' + cat.id + '" onclick="selectCategory(this, \'' + cat.id + '\')">' +
+                                '<div class="category-icon">' + cat.icon + '</div>' +
+                                '<div class="category-name">' + cat.name + '</div>' +
+                                '<div class="category-desc">' + cat.description + '</div>' +
+                            '</div>';
+                        });
+                        
+                        grid.innerHTML = html;
+                    }
+                });
+        }
+        
+        function selectCategory(card, category) {
+            document.querySelectorAll('.category-card').forEach(function(c) {
+                c.classList.remove('active');
+            });
+            card.classList.add('active');
+            selectedCategory = category;
+            loadNewQuestion();
+        }
+        
+        function loadNewQuestion() {
+            var loading = document.getElementById('question-loading');
+            var card = document.getElementById('question-card');
+            loading.classList.add('active');
+            card.style.opacity = '0.5';
+            
+            // Hide feedback
+            document.getElementById('feedback-panel').classList.remove('active');
+            
+            fetch('/api/v1/interview-prep/questions?category=' + selectedCategory + '&count=1')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.success && data.data.questions.length > 0) {
+                        currentQuestion = data.data.questions[0];
+                        
+                        document.getElementById('question-category').textContent = currentQuestion.category;
+                        document.getElementById('question-text').textContent = currentQuestion.question;
+                        
+                        var tipsList = document.getElementById('question-tips');
+                        if (currentQuestion.tips && currentQuestion.tips.length > 0) {
+                            tipsList.innerHTML = currentQuestion.tips.map(function(t) {
+                                return '<li>' + t + '</li>';
+                            }).join('');
+                        } else if (currentQuestion.what_they_assess) {
+                            tipsList.innerHTML = '<li>They are assessing: ' + currentQuestion.what_they_assess + '</li>';
+                        }
+                    }
+                })
+                .finally(function() {
+                    loading.classList.remove('active');
+                    card.style.opacity = '1';
+                });
+        }
+        
+        function analyzeResponse() {
+            var answer = document.getElementById('answer-textarea').value.trim();
+            
+            if (!answer) {
+                showToast('Please write an answer first!');
+                return;
+            }
+            
+            if (answer.split(/\s+/).length < 20) {
+                showToast('Please write a more detailed answer (at least 20 words)');
+                return;
+            }
+            
+            showToast('Analyzing your response...');
+            
+            fetch('/api/v1/interview-prep/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question_id: currentQuestion ? currentQuestion.id : 'unknown',
+                    response_text: answer
+                })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    displayFeedback(data.data);
+                } else {
+                    showToast('Analysis failed. Please try again.');
+                }
+            })
+            .catch(function(err) {
+                console.error(err);
+                showToast('Error analyzing response.');
+            });
+        }
+        
+        function displayFeedback(feedback) {
+            document.getElementById('overall-score').textContent = feedback.overall_score;
+            document.getElementById('content-score').textContent = feedback.content_score;
+            document.getElementById('structure-score').textContent = feedback.structure_score;
+            
+            // STAR check
+            var stars = feedback.star_elements || {};
+            ['s', 't', 'a', 'r'].forEach(function(letter) {
+                var el = document.getElementById('star-' + letter);
+                var key = letter === 's' ? 'situation' : letter === 't' ? 'task' : letter === 'a' ? 'action' : 'result';
+                if (stars[key]) {
+                    el.className = 'star-check-item complete';
+                } else {
+                    el.className = 'star-check-item incomplete';
+                }
+            });
+            
+            // Strengths
+            var strengthsHtml = '';
+            (feedback.strengths || []).forEach(function(s) {
+                strengthsHtml += '<div class="feedback-item">• ' + s + '</div>';
+            });
+            document.getElementById('strengths-list').innerHTML = strengthsHtml || '<div class="feedback-item">• Good effort!</div>';
+            
+            // Areas to improve
+            var improveHtml = '';
+            (feedback.areas_to_improve || []).forEach(function(s) {
+                improveHtml += '<div class="feedback-item">• ' + s + '</div>';
+            });
+            (feedback.specific_suggestions || []).forEach(function(s) {
+                improveHtml += '<div class="feedback-item">• ' + s + '</div>';
+            });
+            document.getElementById('improve-list').innerHTML = improveHtml || '<div class="feedback-item">• Keep practicing!</div>';
+            
+            // Show panel
+            document.getElementById('feedback-panel').classList.add('active');
+            
+            showToast('Analysis complete! Score: ' + feedback.overall_score + '/100');
+        }
+        
+        function clearAnswer() {
+            document.getElementById('answer-textarea').value = '';
+            document.getElementById('word-count').textContent = '0';
+            document.getElementById('feedback-panel').classList.remove('active');
+        }
+        
+        function showToast(message) {
+            var toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 3000);
+        }
+    </script>
+</body>
+</html>

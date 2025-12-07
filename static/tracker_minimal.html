@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker - Accelerator</title>
+    <meta name="description" content="Track and manage your applications">
+    <style>
+        /* Apple-inspired minimal design system - consistent with other pages */
+        :root {
+            /* Colors - Simplified palette */
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-900: #171717;
+            --black: #000000;
+            
+            --blue: #007aff;
+            --blue-light: #f0f8ff;
+            --green: #34c759;
+            --green-light: #f0fff4;
+            --orange: #ff9500;
+            --orange-light: #fff8f0;
+            --red: #ff3b30;
+            --red-light: #fff0f0;
+            --purple: #af52de;
+            --purple-light: #f8f5ff;
+            --yellow: #ffcc00;
+            --yellow-light: #fffbf0;
+            
+            /* Semantic colors */
+            --bg-primary: var(--white);
+            --bg-secondary: var(--gray-50);
+            --bg-elevated: var(--white);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-tertiary: var(--gray-500);
+            --accent: var(--blue);
+            --border: var(--gray-200);
+            
+            /* Typography scale - Apple-like */
+            --text-xs: 11px;
+            --text-sm: 13px;
+            --text-base: 15px;
+            --text-lg: 17px;
+            --text-xl: 20px;
+            --text-2xl: 24px;
+            --text-3xl: 30px;
+            --text-4xl: 36px;
+            
+            /* Spacing - Apple's 8pt grid system */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            
+            /* Border radius - Consistent with iOS */
+            --radius-sm: 6px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows - Subtle depth */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            
+            /* Transitions - Apple's preferred timing */
+            --transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: var(--black);
+                --bg-secondary: #1c1c1e;
+                --bg-elevated: #2c2c2e;
+                --text-primary: var(--white);
+                --text-secondary: #98989d;
+                --text-tertiary: #636366;
+                --border: #48484a;
+                --accent: #0a84ff;
+                --blue-light: rgba(10, 132, 255, 0.1);
+                --green-light: rgba(52, 199, 89, 0.1);
+                --orange-light: rgba(255, 149, 0, 0.1);
+                --red-light: rgba(255, 59, 48, 0.1);
+                --purple-light: rgba(175, 82, 222, 0.1);
+                --yellow-light: rgba(255, 204, 0, 0.1);
+            }
+        }
+        
+        /* Reset - Clean slate */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-size: var(--text-base);
+            line-height: 1.5;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .nav {
+                background: rgba(0, 0, 0, 0.8);
+            }
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        
+        .nav-logo {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-links {
+            display: none;
+            gap: var(--space-8);
+        }
+        
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+        }
+        
+        .nav-link {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        /* Page container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+        
+        /* Header */
+        .page-header {
+            padding: var(--space-10) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .header-content h1 {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-2);
+        }
+        
+        .header-subtitle {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .btn-primary {
+            padding: var(--space-3) var(--space-5);
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--text-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-outline {
+            padding: var(--space-3) var(--space-5);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            font-size: var(--text-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn-outline:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* Stats cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-12);
+        }
+        
+        .stat-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+        
+        .stat-label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .stat-card.total { color: var(--blue); }
+        .stat-card.pending { color: var(--orange); }
+        .stat-card.interviews { color: var(--purple); }
+        .stat-card.offers { color: var(--green); }
+        .stat-card.rejected { color: var(--red); }
+        
+        /* Filters */
+        .filters-container {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-secondary);
+            border: none;
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .filter-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+        
+        .search-input {
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            transition: var(--transition);
+            min-width: 200px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--bg-primary);
+        }
+        
+        /* Applications table */
+        .applications-container {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        
+        .applications-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .applications-table th {
+            background: var(--bg-secondary);
+            padding: var(--space-4) var(--space-6);
+            text-align: left;
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .applications-table td {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        
+        .applications-table tr:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .applications-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Application row elements */
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .company-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .company-details h4 {
+            font-size: var(--text-base);
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+        
+        .company-details p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .status-badge {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .status-applied {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+        
+        .status-interviewing {
+            background: var(--purple-light);
+            color: var(--purple);
+        }
+        
+        .status-offer {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        
+        .status-rejected {
+            background: var(--red-light);
+            color: var(--red);
+        }
+        
+        .status-pending {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+        
+        .progress-indicator {
+            display: flex;
+            gap: var(--space-1);
+            align-items: center;
+        }
+        
+        .progress-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: var(--radius-full);
+            background: var(--gray-300);
+        }
+        
+        .progress-dot.active {
+            background: var(--accent);
+        }
+        
+        .progress-dot.completed {
+            background: var(--green);
+        }
+        
+        .date-info {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .actions-menu {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .actions-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .actions-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-20);
+            color: var(--text-secondary);
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: var(--space-5);
+            opacity: 0.5;
+        }
+        
+        .empty-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+        
+        .empty-description {
+            margin-bottom: var(--space-6);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-4);
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: var(--space-6);
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-4);
+            }
+            
+            .filter-group {
+                justify-content: center;
+            }
+            
+            .search-input {
+                min-width: auto;
+            }
+            
+            .applications-table {
+                font-size: var(--text-sm);
+            }
+            
+            .applications-table th,
+            .applications-table td {
+                padding: var(--space-3) var(--space-4);
+            }
+            
+            .company-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-2);
+            }
+        }
+        
+        /* Hide table headers on mobile */
+        @media (max-width: 640px) {
+            .applications-table,
+            .applications-table thead,
+            .applications-table tbody,
+            .applications-table th,
+            .applications-table td,
+            .applications-table tr {
+                display: block;
+            }
+            
+            .applications-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .applications-table tr {
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                margin-bottom: var(--space-4);
+                padding: var(--space-4);
+            }
+            
+            .applications-table td {
+                border: none;
+                padding: var(--space-2) 0;
+                position: relative;
+                padding-left: 35%;
+            }
+            
+            .applications-table td:before {
+                content: attr(data-label) ": ";
+                position: absolute;
+                left: 0;
+                width: 30%;
+                padding-right: var(--space-2);
+                white-space: nowrap;
+                font-weight: 600;
+                color: var(--text-secondary);
+                font-size: var(--text-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">Accelerator</a>
+            <div class="nav-links">
+                <a href="/profile.html" class="nav-link">Profile</a>
+                <a href="/tracker.html" class="nav-link active">Tracker</a>
+                <a href="/analytics.html" class="nav-link">Analytics</a>
+            </div>
+            <a href="/auto-apply.html" class="btn-primary">Auto Apply</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="header-content">
+                <h1>Application Tracker</h1>
+                <p class="header-subtitle">Track and manage all your applications in one place</p>
+            </div>
+            <div class="header-actions">
+                <a href="/auto-apply.html" class="btn-outline">Auto Apply</a>
+                <button class="btn-primary" onclick="addApplication()">
+                    + Add Application
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-card pending">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card interviews">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Interviews</div>
+            </div>
+            <div class="stat-card offers">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Offers</div>
+            </div>
+            <div class="stat-card rejected">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-container">
+            <div class="filter-group">
+                <button class="filter-btn active" onclick="filterByStatus('all')">All</button>
+                <button class="filter-btn" onclick="filterByStatus('applied')">Applied</button>
+                <button class="filter-btn" onclick="filterByStatus('interviewing')">Interviewing</button>
+                <button class="filter-btn" onclick="filterByStatus('offer')">Offers</button>
+                <button class="filter-btn" onclick="filterByStatus('rejected')">Rejected</button>
+            </div>
+            <input type="text" class="search-input" placeholder="Search companies or positions..." onkeyup="searchApplications(this.value)">
+        </div>
+
+        <!-- Applications Table -->
+        <div class="applications-container">
+            <table class="applications-table" id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>Company & Position</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Applied Date</th>
+                        <th>Last Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsBody">
+                    <tr data-status="interviewing">
+                        <td data-label="Company">
+                            <div class="company-info">
+                                <div class="company-logo">G</div>
+                                <div class="company-details">
+                                    <h4>Google</h4>
+                                    <p>Software Engineer</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Status">
+                            <span class="status-badge status-interviewing">Interviewing</span>
+                        </td>
+                        <td data-label="Progress">
+                            <div class="progress-indicator">
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot active"></div>
+                                <div class="progress-dot"></div>
+                            </div>
+                        </td>
+                        <td data-label="Applied" class="date-info">2 weeks ago</td>
+                        <td data-label="Updated" class="date-info">3 days ago</td>
+                        <td data-label="Actions">
+                            <div class="actions-menu">
+                                <button class="actions-btn" onclick="showActions(this)">⋯</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-status="offer">
+                        <td data-label="Company">
+                            <div class="company-info">
+                                <div class="company-logo">M</div>
+                                <div class="company-details">
+                                    <h4>Microsoft</h4>
+                                    <p>Product Manager</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Status">
+                            <span class="status-badge status-offer">Offer</span>
+                        </td>
+                        <td data-label="Progress">
+                            <div class="progress-indicator">
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot completed"></div>
+                            </div>
+                        </td>
+                        <td data-label="Applied" class="date-info">3 weeks ago</td>
+                        <td data-label="Updated" class="date-info">1 day ago</td>
+                        <td data-label="Actions">
+                            <div class="actions-menu">
+                                <button class="actions-btn" onclick="showActions(this)">⋯</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-status="applied">
+                        <td data-label="Company">
+                            <div class="company-info">
+                                <div class="company-logo">A</div>
+                                <div class="company-details">
+                                    <h4>Apple</h4>
+                                    <p>iOS Developer</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Status">
+                            <span class="status-badge status-applied">Applied</span>
+                        </td>
+                        <td data-label="Progress">
+                            <div class="progress-indicator">
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot"></div>
+                                <div class="progress-dot"></div>
+                                <div class="progress-dot"></div>
+                            </div>
+                        </td>
+                        <td data-label="Applied" class="date-info">1 week ago</td>
+                        <td data-label="Updated" class="date-info">1 week ago</td>
+                        <td data-label="Actions">
+                            <div class="actions-menu">
+                                <button class="actions-btn" onclick="showActions(this)">⋯</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-status="rejected">
+                        <td data-label="Company">
+                            <div class="company-info">
+                                <div class="company-logo">F</div>
+                                <div class="company-details">
+                                    <h4>Facebook</h4>
+                                    <p>Data Scientist</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Status">
+                            <span class="status-badge status-rejected">Rejected</span>
+                        </td>
+                        <td data-label="Progress">
+                            <div class="progress-indicator">
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot"></div>
+                                <div class="progress-dot"></div>
+                            </div>
+                        </td>
+                        <td data-label="Applied" class="date-info">1 month ago</td>
+                        <td data-label="Updated" class="date-info">2 weeks ago</td>
+                        <td data-label="Actions">
+                            <div class="actions-menu">
+                                <button class="actions-btn" onclick="showActions(this)">⋯</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-status="pending">
+                        <td data-label="Company">
+                            <div class="company-info">
+                                <div class="company-logo">S</div>
+                                <div class="company-details">
+                                    <h4>Spotify</h4>
+                                    <p>Frontend Engineer</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Status">
+                            <span class="status-badge status-pending">Pending</span>
+                        </td>
+                        <td data-label="Progress">
+                            <div class="progress-indicator">
+                                <div class="progress-dot completed"></div>
+                                <div class="progress-dot active"></div>
+                                <div class="progress-dot"></div>
+                                <div class="progress-dot"></div>
+                            </div>
+                        </td>
+                        <td data-label="Applied" class="date-info">5 days ago</td>
+                        <td data-label="Updated" class="date-info">5 days ago</td>
+                        <td data-label="Actions">
+                            <div class="actions-menu">
+                                <button class="actions-btn" onclick="showActions(this)">⋯</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Empty state (hidden by default) -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📋</div>
+                <h3 class="empty-title">No applications found</h3>
+                <p class="empty-description">
+                    Start tracking your job applications to stay organized and improve your success rate.
+                </p>
+                <button class="btn-primary" onclick="addApplication()">Add Your First Application</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allApplications = [];
+        let currentFilter = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApplications();
+        });
+
+        function loadApplications() {
+            // Get all table rows
+            const rows = document.querySelectorAll('#applicationsTable tbody tr');
+            allApplications = Array.from(rows);
+            
+            // Update stats
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = allApplications.length;
+            const pending = allApplications.filter(row => row.dataset.status === 'pending').length;
+            const interviewing = allApplications.filter(row => row.dataset.status === 'interviewing').length;
+            const offers = allApplications.filter(row => row.dataset.status === 'offer').length;
+            const rejected = allApplications.filter(row => row.dataset.status === 'rejected').length;
+
+            // Update stat cards
+            document.querySelector('.stat-card.total .stat-number').textContent = total;
+            document.querySelector('.stat-card.pending .stat-number').textContent = pending;
+            document.querySelector('.stat-card.interviews .stat-number').textContent = interviewing;
+            document.querySelector('.stat-card.offers .stat-number').textContent = offers;
+            document.querySelector('.stat-card.rejected .stat-number').textContent = rejected;
+        }
+
+        function filterByStatus(status) {
+            currentFilter = status;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide rows based on filter
+            const tbody = document.getElementById('applicationsBody');
+            const emptyState = document.getElementById('emptyState');
+            let visibleCount = 0;
+
+            allApplications.forEach(row => {
+                if (status === 'all' || row.dataset.status === status) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Show empty state if no applications visible
+            if (visibleCount === 0) {
+                tbody.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                tbody.style.display = '';
+                emptyState.style.display = 'none';
+            }
+        }
+
+        function searchApplications(query) {
+            const lowerQuery = query.toLowerCase();
+            const tbody = document.getElementById('applicationsBody');
+            const emptyState = document.getElementById('emptyState');
+            let visibleCount = 0;
+
+            allApplications.forEach(row => {
+                const companyName = row.querySelector('.company-details h4').textContent.toLowerCase();
+                const position = row.querySelector('.company-details p').textContent.toLowerCase();
+                const matches = companyName.includes(lowerQuery) || position.includes(lowerQuery);
+                const statusMatches = currentFilter === 'all' || row.dataset.status === currentFilter;
+
+                if (matches && statusMatches) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Show empty state if no applications visible
+            if (visibleCount === 0) {
+                tbody.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                tbody.style.display = '';
+                emptyState.style.display = 'none';
+            }
+        }
+
+        function addApplication() {
+            alert('Add application modal would open here');
+            // Implement add application modal/form
+        }
+
+        function showActions(button) {
+            alert('Actions menu would appear here');
+            // Implement dropdown menu with edit, delete, update status options
+        }
+    </script>
+</body>
+</html>

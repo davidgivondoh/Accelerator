@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Tracker - Accelerator</title>
+    <meta name="description" content="Track and manage all your job applications in one place">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Design System Variables */
+        :root {
+            /* Colors */
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-900: #1e3a8a;
+            
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            --success-400: #34d399;
+            --success-500: #10b981;
+            --success-600: #059669;
+            
+            --warning-400: #fbbf24;
+            --warning-500: #f59e0b;
+            
+            --error-400: #f87171;
+            --error-500: #ef4444;
+            
+            --purple-500: #8b5cf6;
+            --purple-600: #7c3aed;
+            
+            --indigo-500: #6366f1;
+            --indigo-600: #4f46e5;
+            
+            /* Light theme */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--gray-50);
+            --bg-tertiary: var(--gray-100);
+            --bg-elevated: #ffffff;
+            --bg-overlay: rgba(255, 255, 255, 0.95);
+            
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-tertiary: var(--gray-500);
+            --text-inverse: #ffffff;
+            
+            --border-primary: var(--gray-200);
+            --border-secondary: var(--gray-300);
+            --border-focus: var(--primary-500);
+            
+            --accent: var(--primary-600);
+            --accent-hover: var(--primary-700);
+            --accent-light: var(--primary-50);
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Border radius */
+            --radius-xs: 0.125rem;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: var(--gray-900);
+                --bg-secondary: var(--gray-800);
+                --bg-tertiary: var(--gray-700);
+                --bg-elevated: var(--gray-800);
+                --bg-overlay: rgba(17, 24, 39, 0.95);
+                
+                --text-primary: var(--gray-100);
+                --text-secondary: var(--gray-300);
+                --text-tertiary: var(--gray-400);
+                --text-inverse: var(--gray-900);
+                
+                --border-primary: var(--gray-700);
+                --border-secondary: var(--gray-600);
+                
+                --accent: var(--primary-500);
+                --accent-hover: var(--primary-400);
+                --accent-light: rgba(59, 130, 246, 0.1);
+                
+                --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+                --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            }
+        }
+        
+        /* Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-overlay);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .nav-logo {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary-700) 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-inverse);
+            font-size: 0.875rem;
+        }
+        
+        .nav-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            letter-spacing: -0.025em;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1.25rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0.25rem;
+            height: 0.25rem;
+            background: var(--accent);
+            border-radius: var(--radius-full);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+        
+        /* Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .page-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 36rem;
+            margin: 0 auto;
+        }
+        
+        /* Stats Overview */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .stat-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-secondary);
+        }
+        
+        .stat-card.total::before { background: linear-gradient(45deg, var(--accent), var(--primary-700)); }
+        .stat-card.pending::before { background: linear-gradient(45deg, var(--warning-400), var(--warning-500)); }
+        .stat-card.interview::before { background: linear-gradient(45deg, var(--purple-500), var(--indigo-500)); }
+        .stat-card.accepted::before { background: linear-gradient(45deg, var(--success-400), var(--success-600)); }
+        .stat-card.rejected::before { background: linear-gradient(45deg, var(--error-400), var(--error-500)); }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stat-card.total .stat-value { color: var(--accent); }
+        .stat-card.pending .stat-value { color: var(--warning-500); }
+        .stat-card.interview .stat-value { color: var(--purple-500); }
+        .stat-card.accepted .stat-value { color: var(--success-500); }
+        .stat-card.rejected .stat-value { color: var(--error-500); }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Add Application Form */
+        .add-form-section {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-3xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .toggle-form-btn {
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--accent);
+            color: var(--text-inverse);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .toggle-form-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        
+        .add-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: var(--space-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: var(--space-md);
+            justify-content: flex-end;
+            margin-top: var(--space-lg);
+        }
+        
+        .btn-secondary {
+            padding: var(--space-md) var(--space-xl);
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-secondary);
+            color: var(--text-primary);
+        }
+        
+        .btn-primary {
+            padding: var(--space-md) var(--space-xl);
+            background: var(--accent);
+            color: var(--text-inverse);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        
+        /* Applications Table */
+        .table-section {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .table-header {
+            padding: var(--space-xl);
+            border-bottom: 1px solid var(--border-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-lg);
+        }
+        
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .table-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .search-input {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            width: 250px;
+            transition: all var(--transition-fast);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .filter-select {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+        
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            padding: var(--space-lg) var(--space-xl);
+            text-align: left;
+            background: var(--bg-secondary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        td {
+            padding: var(--space-lg) var(--space-xl);
+            border-bottom: 1px solid var(--border-primary);
+            font-size: 0.875rem;
+        }
+        
+        tbody tr {
+            transition: background-color var(--transition-fast);
+        }
+        
+        tbody tr:hover {
+            background: var(--bg-secondary);
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .company-cell {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        
+        .company-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .position-title {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+        }
+        
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .type-badge.job { background: var(--accent-light); color: var(--accent); }
+        .type-badge.internship { background: rgba(139, 92, 246, 0.1); color: var(--purple-500); }
+        .type-badge.scholarship { background: rgba(16, 185, 129, 0.1); color: var(--success-500); }
+        .type-badge.grant { background: rgba(251, 191, 36, 0.1); color: var(--warning-500); }
+        .type-badge.fellowship { background: rgba(99, 102, 241, 0.1); color: var(--indigo-500); }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.applied { background: var(--accent-light); color: var(--accent); }
+        .status-badge.pending { background: rgba(251, 191, 36, 0.1); color: var(--warning-500); }
+        .status-badge.interview { background: rgba(139, 92, 246, 0.1); color: var(--purple-500); }
+        .status-badge.accepted { background: rgba(16, 185, 129, 0.1); color: var(--success-500); }
+        .status-badge.rejected { background: rgba(239, 68, 68, 0.1); color: var(--error-500); }
+        
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: var(--radius-full);
+        }
+        
+        .status-badge.applied .status-dot { background: var(--accent); }
+        .status-badge.pending .status-dot { background: var(--warning-500); }
+        .status-badge.interview .status-dot { background: var(--purple-500); }
+        .status-badge.accepted .status-dot { background: var(--success-500); }
+        .status-badge.rejected .status-dot { background: var(--error-500); }
+        
+        .date-cell {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+        }
+        
+        .actions-cell {
+            display: flex;
+            gap: var(--space-xs);
+        }
+        
+        .action-btn {
+            padding: var(--space-xs) var(--space-sm);
+            background: transparent;
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.75rem;
+        }
+        
+        .action-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-secondary);
+            color: var(--text-primary);
+        }
+        
+        .action-btn.edit:hover { color: var(--accent); border-color: var(--accent); }
+        .action-btn.delete:hover { color: var(--error-500); border-color: var(--error-500); }
+        
+        /* Empty State */
+        .empty-state {
+            padding: var(--space-3xl);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+            opacity: 0.5;
+        }
+        
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+        
+        .empty-description {
+            margin-bottom: var(--space-lg);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 var(--space-md);
+            }
+            
+            .nav-links {
+                gap: var(--space-lg);
+            }
+            
+            .container {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--space-md);
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            /* Mobile table adjustments */
+            .table-container {
+                font-size: 0.8125rem;
+            }
+            
+            th, td {
+                padding: var(--space-md);
+            }
+            
+            .company-cell {
+                min-width: 150px;
+            }
+        }
+        
+        /* Hidden state */
+        .hidden {
+            display: none;
+        }
+        
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        /* Focus states */
+        .btn-primary:focus-visible,
+        .btn-secondary:focus-visible,
+        .toggle-form-btn:focus-visible,
+        .action-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo">A</div>
+                <span class="nav-title">Accelerator</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/analytics.html" class="nav-link">Analytics</a>
+                <a href="/tracker.html" class="nav-link active">Tracker</a>
+                <a href="/auto-apply.html" class="nav-link">Auto-Apply</a>
+                <a href="/interview-prep.html" class="nav-link">Interview Prep</a>
+                <a href="/profile.html" class="nav-link">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1 class="page-title">Application Tracker</h1>
+            <p class="page-subtitle">
+                Track and manage all your job applications in one centralized dashboard
+            </p>
+        </div>
+
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-value" id="totalApps">24</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-card pending">
+                <div class="stat-value" id="pendingApps">18</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card interview">
+                <div class="stat-value" id="interviewApps">3</div>
+                <div class="stat-label">Interviews</div>
+            </div>
+            <div class="stat-card accepted">
+                <div class="stat-value" id="acceptedApps">2</div>
+                <div class="stat-label">Accepted</div>
+            </div>
+            <div class="stat-card rejected">
+                <div class="stat-value" id="rejectedApps">1</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </section>
+
+        <!-- Add Application Form -->
+        <section class="add-form-section">
+            <div class="form-header">
+                <h2 class="form-title">Add New Application</h2>
+                <button class="toggle-form-btn" onclick="toggleForm()">+ Add Application</button>
+            </div>
+            <form class="add-form hidden" id="addForm">
+                <div class="form-group">
+                    <label class="form-label" for="company">Company Name</label>
+                    <input type="text" class="form-input" id="company" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="position">Position Title</label>
+                    <input type="text" class="form-input" id="position" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="type">Application Type</label>
+                    <select class="form-select" id="type" required>
+                        <option value="">Select type</option>
+                        <option value="job">Job</option>
+                        <option value="internship">Internship</option>
+                        <option value="scholarship">Scholarship</option>
+                        <option value="grant">Grant</option>
+                        <option value="fellowship">Fellowship</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="status">Status</label>
+                    <select class="form-select" id="status" required>
+                        <option value="">Select status</option>
+                        <option value="applied">Applied</option>
+                        <option value="pending">Pending</option>
+                        <option value="interview">Interview</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="dateApplied">Date Applied</label>
+                    <input type="date" class="form-input" id="dateApplied" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="url">Application URL</label>
+                    <input type="url" class="form-input" id="url" placeholder="https://...">
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label class="form-label" for="notes">Notes</label>
+                    <textarea class="form-textarea" id="notes" placeholder="Add any notes about this application..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="resetForm()">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Application</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Applications Table -->
+        <section class="table-section">
+            <div class="table-header">
+                <h2 class="table-title">Your Applications</h2>
+                <div class="table-controls">
+                    <input type="text" class="search-input" placeholder="Search applications..." id="searchInput">
+                    <select class="filter-select" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="applied">Applied</option>
+                        <option value="pending">Pending</option>
+                        <option value="interview">Interview</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <select class="filter-select" id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="job">Jobs</option>
+                        <option value="internship">Internships</option>
+                        <option value="scholarship">Scholarships</option>
+                        <option value="grant">Grants</option>
+                        <option value="fellowship">Fellowships</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="applicationsTable">
+                    <thead>
+                        <tr>
+                            <th>Company & Position</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Applied Date</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationsBody">
+                        <!-- Sample data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="empty-state hidden" id="emptyState">
+                <div class="empty-icon">📝</div>
+                <h3 class="empty-title">No applications found</h3>
+                <p class="empty-description">
+                    Get started by adding your first job application above.
+                </p>
+                <button class="btn-primary" onclick="toggleForm()">Add Your First Application</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Sample data - in a real app, this would come from your API
+        let applications = [
+            {
+                id: 1,
+                company: 'TechCorp',
+                position: 'Senior Software Engineer',
+                type: 'job',
+                status: 'interview',
+                dateApplied: '2024-12-01',
+                lastUpdated: '2024-12-05',
+                url: 'https://example.com/job1',
+                notes: 'Initial screening completed'
+            },
+            {
+                id: 2,
+                company: 'StartupXYZ',
+                position: 'Full Stack Developer',
+                type: 'job',
+                status: 'pending',
+                dateApplied: '2024-11-28',
+                lastUpdated: '2024-11-28',
+                url: 'https://example.com/job2',
+                notes: 'Applied via company website'
+            },
+            {
+                id: 3,
+                company: 'Innovation Labs',
+                position: 'Software Engineering Intern',
+                type: 'internship',
+                status: 'accepted',
+                dateApplied: '2024-11-25',
+                lastUpdated: '2024-12-03',
+                url: 'https://example.com/intern1',
+                notes: 'Offer received - starting next month'
+            }
+        ];
+
+        // Initialize the tracker
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTracker();
+            renderApplications();
+            updateStats();
+        });
+
+        function initializeTracker() {
+            // Setup form submission
+            document.getElementById('addForm').addEventListener('submit', handleFormSubmit);
+            
+            // Setup search and filters
+            document.getElementById('searchInput').addEventListener('input', filterApplications);
+            document.getElementById('statusFilter').addEventListener('change', filterApplications);
+            document.getElementById('typeFilter').addEventListener('change', filterApplications);
+        }
+
+        function toggleForm() {
+            const form = document.getElementById('addForm');
+            const btn = document.querySelector('.toggle-form-btn');
+            
+            if (form.classList.contains('hidden')) {
+                form.classList.remove('hidden');
+                btn.textContent = 'Cancel';
+                btn.style.background = 'var(--text-secondary)';
+            } else {
+                form.classList.add('hidden');
+                btn.textContent = '+ Add Application';
+                btn.style.background = 'var(--accent)';
+                resetForm();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('addForm').reset();
+            const form = document.getElementById('addForm');
+            const btn = document.querySelector('.toggle-form-btn');
+            
+            form.classList.add('hidden');
+            btn.textContent = '+ Add Application';
+            btn.style.background = 'var(--accent)';
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const newApp = {
+                id: Date.now(),
+                company: document.getElementById('company').value,
+                position: document.getElementById('position').value,
+                type: document.getElementById('type').value,
+                status: document.getElementById('status').value,
+                dateApplied: document.getElementById('dateApplied').value,
+                lastUpdated: new Date().toISOString().split('T')[0],
+                url: document.getElementById('url').value || '',
+                notes: document.getElementById('notes').value || ''
+            };
+
+            applications.unshift(newApp);
+            renderApplications();
+            updateStats();
+            resetForm();
+            showNotification('Application added successfully!', 'success');
+        }
+
+        function renderApplications() {
+            const tbody = document.getElementById('applicationsBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (applications.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            tbody.innerHTML = applications.map(app => `
+                <tr data-id="${app.id}">
+                    <td>
+                        <div class="company-cell">
+                            <div class="company-name">${escapeHtml(app.company)}</div>
+                            <div class="position-title">${escapeHtml(app.position)}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="type-badge ${app.type}">${app.type}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${app.status}">
+                            <div class="status-dot"></div>
+                            ${app.status}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="date-cell">${formatDate(app.dateApplied)}</div>
+                    </td>
+                    <td>
+                        <div class="date-cell">${formatDate(app.lastUpdated)}</div>
+                    </td>
+                    <td>
+                        <div class="actions-cell">
+                            ${app.url ? `<button class="action-btn" onclick="openUrl('${app.url}')" title="Open Application">🔗</button>` : ''}
+                            <button class="action-btn edit" onclick="editApplication(${app.id})" title="Edit">✏️</button>
+                            <button class="action-btn delete" onclick="deleteApplication(${app.id})" title="Delete">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const stats = {
+                total: applications.length,
+                pending: applications.filter(app => app.status === 'pending' || app.status === 'applied').length,
+                interview: applications.filter(app => app.status === 'interview').length,
+                accepted: applications.filter(app => app.status === 'accepted').length,
+                rejected: applications.filter(app => app.status === 'rejected').length
+            };
+
+            // Animate the stat values
+            Object.keys(stats).forEach(key => {
+                const element = document.getElementById(key + 'Apps');
+                if (element) {
+                    animateValue(element, 0, stats[key], 500);
+                }
+            });
+        }
+
+        function animateValue(element, start, end, duration) {
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentValue = Math.floor(start + (end - start) * progress);
+                
+                element.textContent = currentValue;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        function filterApplications() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            
+            const filteredApps = applications.filter(app => {
+                const matchesSearch = !search || 
+                    app.company.toLowerCase().includes(search) ||
+                    app.position.toLowerCase().includes(search) ||
+                    app.notes.toLowerCase().includes(search);
+                
+                const matchesStatus = !statusFilter || app.status === statusFilter;
+                const matchesType = !typeFilter || app.type === typeFilter;
+                
+                return matchesSearch && matchesStatus && matchesType;
+            });
+            
+            // Temporarily replace applications array for rendering
+            const originalApps = [...applications];
+            applications = filteredApps;
+            renderApplications();
+            applications = originalApps;
+        }
+
+        function openUrl(url) {
+            window.open(url, '_blank');
+        }
+
+        function editApplication(id) {
+            // In a real app, this would open an edit modal or form
+            showNotification('Edit functionality would open here', 'info');
+        }
+
+        function deleteApplication(id) {
+            if (confirm('Are you sure you want to delete this application?')) {
+                applications = applications.filter(app => app.id !== id);
+                renderApplications();
+                updateStats();
+                showNotification('Application deleted', 'success');
+            }
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                background: ${type === 'success' ? 'var(--success-500)' : type === 'error' ? 'var(--error-500)' : 'var(--accent)'};
+                color: white;
+                border-radius: 8px;
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.style.transform = 'translateX(0)', 10);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

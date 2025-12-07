@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Accelerator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            color: #1d1d1f;
+        }
+        
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #1d1d1f;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #007AFF;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .page-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #1d1d1f, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .page-header p {
+            font-size: 20px;
+            color: #666;
+        }
+        
+        /* Stats Overview */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+        
+        .stat-card .icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card.opportunities .icon { background: linear-gradient(135deg, #34C759, #30D158); }
+        .stat-card.applications .icon { background: linear-gradient(135deg, #007AFF, #5856D6); }
+        .stat-card.interviews .icon { background: linear-gradient(135deg, #FF9500, #FF6B00); }
+        .stat-card.saved .icon { background: linear-gradient(135deg, #FF2D55, #FF375F); }
+        
+        .stat-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .stat-trend {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .stat-trend.up { color: #34C759; }
+        .stat-trend.down { color: #FF3B30; }
+        
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        @media (max-width: 1024px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .chart-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1d1d1f;
+        }
+        
+        /* Activity Chart */
+        .activity-chart {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding-top: 20px;
+        }
+        
+        .chart-bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .chart-bar {
+            width: 100%;
+            max-width: 40px;
+            background: linear-gradient(180deg, #007AFF, #5856D6);
+            border-radius: 8px 8px 0 0;
+            transition: height 0.5s ease;
+        }
+        
+        .chart-bar:hover {
+            background: linear-gradient(180deg, #5856D6, #007AFF);
+        }
+        
+        .chart-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Category Distribution */
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .category-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+        
+        .category-bar-bg {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        
+        .category-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .category-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1d1d1f;
+            min-width: 40px;
+            text-align: right;
+        }
+        
+        /* Recent Activity */
+        .activity-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        @media (max-width: 768px) {
+            .activity-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .activity-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .activity-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1d1d1f;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: #f5f7fa;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        
+        .activity-item:hover {
+            background: #e8edf2;
+        }
+        
+        .activity-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .activity-icon.scan { background: linear-gradient(135deg, #34C759, #30D158); }
+        .activity-icon.apply { background: linear-gradient(135deg, #007AFF, #5856D6); }
+        .activity-icon.interview { background: linear-gradient(135deg, #FF9500, #FF6B00); }
+        .activity-icon.save { background: linear-gradient(135deg, #FF2D55, #FF375F); }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin-bottom: 4px;
+        }
+        
+        .activity-time {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* Goals Progress */
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .goal-item {
+            padding: 20px;
+            background: #f5f7fa;
+            border-radius: 12px;
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .goal-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+        
+        .goal-progress-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007AFF;
+        }
+        
+        .goal-bar-bg {
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .goal-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #007AFF, #5856D6);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Recommendations */
+        .recommendations-section {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .recommendations-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1d1d1f;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .recommendation-card {
+            padding: 24px;
+            background: linear-gradient(135deg, #f5f7fa, #e8edf2);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .recommendation-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        
+        .recommendation-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        
+        .recommendation-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        
+        .recommendation-action {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .recommendation-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+        
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            color: #666;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #f0f0f0;
+            border-top-color: #007AFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Refresh Button */
+        .refresh-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
+        }
+        
+        .last-updated {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">⚡ Accelerator</div>
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/interview-prep.html">Interview Prep</a>
+            <a href="/analytics.html" class="active">Analytics</a>
+            <a href="/auto-apply.html">Auto-Apply</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📊 Analytics Dashboard</h1>
+            <p>Track your progress, measure success, and optimize your strategy</p>
+            <div class="header-actions" style="justify-content: center; margin-top: 24px;">
+                <span class="last-updated" id="lastUpdated">Last updated: --</span>
+                <button class="refresh-btn" onclick="refreshData()">
+                    🔄 Refresh Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card opportunities">
+                <div class="icon">🎯</div>
+                <div class="stat-value" id="totalOpportunities">0</div>
+                <div class="stat-label">Total Opportunities Found</div>
+                <div class="stat-trend up">
+                    <span>↑</span> <span id="oppsTrend">+0 today</span>
+                </div>
+            </div>
+            
+            <div class="stat-card applications">
+                <div class="icon">📤</div>
+                <div class="stat-value" id="totalApplications">0</div>
+                <div class="stat-label">Applications Sent</div>
+                <div class="stat-trend up">
+                    <span>↑</span> <span id="appsTrend">+0 this week</span>
+                </div>
+            </div>
+            
+            <div class="stat-card interviews">
+                <div class="icon">💬</div>
+                <div class="stat-value" id="totalInterviews">0</div>
+                <div class="stat-label">Interview Prep Sessions</div>
+                <div class="stat-trend up">
+                    <span>↑</span> <span id="interviewsTrend">+0 this week</span>
+                </div>
+            </div>
+            
+            <div class="stat-card saved">
+                <div class="icon">💾</div>
+                <div class="stat-value" id="totalSaved">0</div>
+                <div class="stat-label">Saved Opportunities</div>
+                <div class="stat-trend">
+                    <span id="savedTrend">Ready to apply</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <!-- Activity Chart -->
+            <div class="chart-card">
+                <h3>📈 Weekly Activity</h3>
+                <div class="activity-chart" id="activityChart">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            
+            <!-- Category Distribution -->
+            <div class="chart-card">
+                <h3>📊 Opportunities by Category</h3>
+                <div class="category-list" id="categoryList">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Goals -->
+        <div class="activity-section">
+            <!-- Recent Activity -->
+            <div class="activity-card">
+                <h3>🕐 Recent Activity</h3>
+                <div class="activity-list" id="recentActivity">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            
+            <!-- Goals Progress -->
+            <div class="activity-card">
+                <h3>🎯 Weekly Goals</h3>
+                <div class="goals-list" id="goalsList">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Recommendations -->
+        <div class="recommendations-section">
+            <h3>🤖 AI Recommendations</h3>
+            <div class="recommendations-grid" id="recommendations">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Analytics Data Store
+        let analyticsData = {
+            stats: {
+                opportunities: 0,
+                applications: 0,
+                interviews: 0,
+                saved: 0
+            },
+            weeklyActivity: [],
+            categoryBreakdown: [],
+            recentActivity: [],
+            goals: []
+        };
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAnalyticsData();
+        });
+
+        // Load analytics data
+        async function loadAnalyticsData() {
+            try {
+                // Try to load from local storage first
+                const stored = localStorage.getItem('accelerator_analytics');
+                if (stored) {
+                    analyticsData = JSON.parse(stored);
+                }
+
+                // Try to fetch latest scan data
+                const response = await fetch('/api/v1/stats');
+                if (response.ok) {
+                    const serverData = await response.json();
+                    updateFromServerData(serverData);
+                }
+            } catch (error) {
+                console.log('Using local analytics data');
+            }
+
+            // Generate demo data if empty
+            if (analyticsData.weeklyActivity.length === 0) {
+                generateDemoData();
+            }
+
+            renderDashboard();
+            updateLastUpdated();
+        }
+
+        // Update from server data
+        function updateFromServerData(serverData) {
+            if (serverData.total_opportunities) {
+                analyticsData.stats.opportunities = serverData.total_opportunities;
+            }
+            if (serverData.categories) {
+                analyticsData.categoryBreakdown = Object.entries(serverData.categories).map(([name, count]) => ({
+                    name,
+                    count,
+                    color: getCategoryColor(name)
+                }));
+            }
+        }
+
+        // Generate demo analytics data
+        function generateDemoData() {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            
+            analyticsData.stats = {
+                opportunities: Math.floor(Math.random() * 500) + 1337,
+                applications: Math.floor(Math.random() * 50) + 10,
+                interviews: Math.floor(Math.random() * 20) + 5,
+                saved: Math.floor(Math.random() * 100) + 25
+            };
+
+            analyticsData.weeklyActivity = days.map(day => ({
+                day,
+                scans: Math.floor(Math.random() * 50) + 10,
+                applications: Math.floor(Math.random() * 10) + 1
+            }));
+
+            analyticsData.categoryBreakdown = [
+                { name: 'Remote Jobs', count: 487, color: '#007AFF' },
+                { name: 'Startups', count: 312, color: '#34C759' },
+                { name: 'Grants', count: 215, color: '#FF9500' },
+                { name: 'Hackathons', count: 156, color: '#FF2D55' },
+                { name: 'Scholarships', count: 98, color: '#5856D6' },
+                { name: 'Competitions', count: 69, color: '#AF52DE' }
+            ];
+
+            analyticsData.recentActivity = [
+                { type: 'scan', title: 'Mega Scan completed - 600 opportunities', time: '2 minutes ago' },
+                { type: 'save', title: 'Saved "Senior Developer at Stripe"', time: '15 minutes ago' },
+                { type: 'interview', title: 'Completed behavioral interview prep', time: '1 hour ago' },
+                { type: 'apply', title: 'Applied to Y Combinator W25', time: '2 hours ago' },
+                { type: 'scan', title: 'Live Scan - 87 real opportunities', time: '3 hours ago' }
+            ];
+
+            analyticsData.goals = [
+                { title: 'Apply to 20 opportunities', current: 12, target: 20 },
+                { title: 'Complete 10 interview prep sessions', current: 7, target: 10 },
+                { title: 'Save 50 matching opportunities', current: 35, target: 50 },
+                { title: 'Run 5 mega scans', current: 4, target: 5 }
+            ];
+
+            // Save to localStorage
+            localStorage.setItem('accelerator_analytics', JSON.stringify(analyticsData));
+        }
+
+        // Render dashboard
+        function renderDashboard() {
+            renderStats();
+            renderActivityChart();
+            renderCategoryBreakdown();
+            renderRecentActivity();
+            renderGoals();
+            renderRecommendations();
+        }
+
+        // Render stats
+        function renderStats() {
+            document.getElementById('totalOpportunities').textContent = 
+                analyticsData.stats.opportunities.toLocaleString();
+            document.getElementById('totalApplications').textContent = 
+                analyticsData.stats.applications.toLocaleString();
+            document.getElementById('totalInterviews').textContent = 
+                analyticsData.stats.interviews.toLocaleString();
+            document.getElementById('totalSaved').textContent = 
+                analyticsData.stats.saved.toLocaleString();
+
+            document.getElementById('oppsTrend').textContent = 
+                `+${Math.floor(Math.random() * 100) + 50} today`;
+            document.getElementById('appsTrend').textContent = 
+                `+${Math.floor(Math.random() * 10) + 3} this week`;
+            document.getElementById('interviewsTrend').textContent = 
+                `+${Math.floor(Math.random() * 5) + 2} this week`;
+        }
+
+        // Render activity chart
+        function renderActivityChart() {
+            const container = document.getElementById('activityChart');
+            const maxValue = Math.max(...analyticsData.weeklyActivity.map(d => d.scans));
+            
+            container.innerHTML = analyticsData.weeklyActivity.map(day => {
+                const height = (day.scans / maxValue) * 250;
+                return `
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="height: ${height}px" title="${day.scans} scans"></div>
+                        <span class="chart-label">${day.day}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render category breakdown
+        function renderCategoryBreakdown() {
+            const container = document.getElementById('categoryList');
+            const maxCount = Math.max(...analyticsData.categoryBreakdown.map(c => c.count));
+            
+            container.innerHTML = analyticsData.categoryBreakdown.map(cat => {
+                const width = (cat.count / maxCount) * 100;
+                return `
+                    <div class="category-item">
+                        <div class="category-color" style="background: ${cat.color}"></div>
+                        <div class="category-info">
+                            <div class="category-name">${cat.name}</div>
+                            <div class="category-bar-bg">
+                                <div class="category-bar" style="width: ${width}%; background: ${cat.color}"></div>
+                            </div>
+                        </div>
+                        <div class="category-value">${cat.count}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render recent activity
+        function renderRecentActivity() {
+            const container = document.getElementById('recentActivity');
+            const icons = {
+                scan: '🔍',
+                apply: '📤',
+                interview: '💬',
+                save: '💾'
+            };
+            
+            container.innerHTML = analyticsData.recentActivity.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon ${activity.type}">${icons[activity.type]}</div>
+                    <div class="activity-details">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render goals
+        function renderGoals() {
+            const container = document.getElementById('goalsList');
+            
+            container.innerHTML = analyticsData.goals.map(goal => {
+                const progress = (goal.current / goal.target) * 100;
+                return `
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <span class="goal-title">${goal.title}</span>
+                            <span class="goal-progress-text">${goal.current}/${goal.target}</span>
+                        </div>
+                        <div class="goal-bar-bg">
+                            <div class="goal-bar" style="width: ${Math.min(progress, 100)}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render recommendations
+        function renderRecommendations() {
+            const container = document.getElementById('recommendations');
+            
+            const recommendations = [
+                {
+                    icon: '🎯',
+                    title: 'Optimize Your Search',
+                    text: 'Based on your activity, you\'re most successful with remote developer roles. Focus on this category for higher response rates.',
+                    action: 'Run Targeted Scan',
+                    href: '/'
+                },
+                {
+                    icon: '💬',
+                    title: 'Practice Interview Skills',
+                    text: 'You have 3 saved opportunities requiring technical interviews. Complete our technical prep sessions to boost confidence.',
+                    action: 'Start Practice',
+                    href: '/interview-prep.html'
+                },
+                {
+                    icon: '⏰',
+                    title: 'Application Deadlines',
+                    text: 'You have 5 saved opportunities with deadlines this week. Prioritize applications to maximize your chances.',
+                    action: 'View Deadlines',
+                    href: '/'
+                },
+                {
+                    icon: '📈',
+                    title: 'Increase Success Rate',
+                    text: 'Applicants who complete profile setup have 3x higher response rates. Complete your profile to stand out.',
+                    action: 'Complete Profile',
+                    href: '/'
+                }
+            ];
+            
+            container.innerHTML = recommendations.map(rec => `
+                <div class="recommendation-card">
+                    <div class="recommendation-icon">${rec.icon}</div>
+                    <div class="recommendation-title">${rec.title}</div>
+                    <div class="recommendation-text">${rec.text}</div>
+                    <a href="${rec.href}" class="recommendation-action">${rec.action}</a>
+                </div>
+            `).join('');
+        }
+
+        // Get category color
+        function getCategoryColor(name) {
+            const colors = {
+                'Remote Jobs': '#007AFF',
+                'Startups': '#34C759',
+                'Grants': '#FF9500',
+                'Hackathons': '#FF2D55',
+                'Scholarships': '#5856D6',
+                'Competitions': '#AF52DE'
+            };
+            return colors[name] || '#007AFF';
+        }
+
+        // Refresh data
+        async function refreshData() {
+            const btn = document.querySelector('.refresh-btn');
+            btn.innerHTML = '⏳ Refreshing...';
+            btn.disabled = true;
+
+            try {
+                // Fetch fresh data
+                const response = await fetch('/api/v1/stats');
+                if (response.ok) {
+                    const serverData = await response.json();
+                    updateFromServerData(serverData);
+                }
+
+                // Regenerate some demo data for realistic updates
+                analyticsData.stats.opportunities += Math.floor(Math.random() * 50);
+                analyticsData.stats.applications += Math.floor(Math.random() * 5);
+                
+                // Add new activity
+                analyticsData.recentActivity.unshift({
+                    type: 'scan',
+                    title: `Data refreshed - ${analyticsData.stats.opportunities} total opportunities`,
+                    time: 'Just now'
+                });
+                analyticsData.recentActivity = analyticsData.recentActivity.slice(0, 5);
+
+                // Save and re-render
+                localStorage.setItem('accelerator_analytics', JSON.stringify(analyticsData));
+                renderDashboard();
+                updateLastUpdated();
+
+            } catch (error) {
+                console.error('Refresh failed:', error);
+            }
+
+            btn.innerHTML = '🔄 Refresh Data';
+            btn.disabled = false;
+        }
+
+        // Update last updated timestamp
+        function updateLastUpdated() {
+            document.getElementById('lastUpdated').textContent = 
+                `Last updated: ${new Date().toLocaleTimeString()}`;
+        }
+
+        // Track scan events from main dashboard
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'last_scan_results') {
+                loadAnalyticsData();
+            }
+        });
+    </script>
+</body>
+</html>

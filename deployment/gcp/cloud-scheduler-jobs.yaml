@@ -1,0 +1,153 @@
+# Cloud Scheduler Jobs for Growth Engine
+# Automated scheduling for daily operations
+
+# ==============================================================================
+# DAILY DISCOVERY JOB
+# ==============================================================================
+# Runs opportunity discovery every morning at 6 AM UTC
+---
+apiVersion: cloudscheduler.googleapis.com/v1
+kind: Job
+metadata:
+  name: growth-engine-daily-discovery
+  location: us-central1
+spec:
+  description: "Daily opportunity discovery job"
+  schedule: "0 6 * * *"  # 6 AM UTC daily
+  timeZone: "UTC"
+  attemptDeadline: "1800s"  # 30 minutes
+  retryConfig:
+    retryCount: 3
+    minBackoffDuration: "30s"
+    maxBackoffDuration: "300s"
+    maxDoublings: 3
+  httpTarget:
+    uri: https://growth-engine-HASH-uc.a.run.app/api/v1/discovery/run
+    httpMethod: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "sources": ["linkedin", "angelist", "ycombinator", "wellfound"],
+        "max_per_source": 25,
+        "min_fit_score": 0.7
+      }
+    oidcToken:
+      serviceAccountEmail: growth-engine-scheduler-sa@PROJECT_ID.iam.gserviceaccount.com
+
+# ==============================================================================
+# EVENING APPLICATION JOB
+# ==============================================================================
+# Generates and submits applications every evening at 7 PM UTC
+---
+apiVersion: cloudscheduler.googleapis.com/v1
+kind: Job
+metadata:
+  name: growth-engine-evening-applications
+  location: us-central1
+spec:
+  description: "Evening application generation job"
+  schedule: "0 19 * * 1-5"  # 7 PM UTC, Monday-Friday
+  timeZone: "UTC"
+  attemptDeadline: "3600s"  # 1 hour
+  retryConfig:
+    retryCount: 2
+    minBackoffDuration: "60s"
+    maxBackoffDuration: "600s"
+  httpTarget:
+    uri: https://growth-engine-HASH-uc.a.run.app/api/v1/applications/generate-batch
+    httpMethod: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "max_applications": 10,
+        "require_approval": true,
+        "min_fit_score": 0.75
+      }
+    oidcToken:
+      serviceAccountEmail: growth-engine-scheduler-sa@PROJECT_ID.iam.gserviceaccount.com
+
+# ==============================================================================
+# WEEKLY ANALYTICS JOB
+# ==============================================================================
+# Comprehensive analytics report every Sunday
+---
+apiVersion: cloudscheduler.googleapis.com/v1
+kind: Job
+metadata:
+  name: growth-engine-weekly-analytics
+  location: us-central1
+spec:
+  description: "Weekly analytics and reporting job"
+  schedule: "0 8 * * 0"  # 8 AM UTC on Sundays
+  timeZone: "UTC"
+  attemptDeadline: "1200s"  # 20 minutes
+  retryConfig:
+    retryCount: 2
+  httpTarget:
+    uri: https://growth-engine-HASH-uc.a.run.app/api/v1/analytics/generate-report
+    httpMethod: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "report_type": "weekly",
+        "include_recommendations": true,
+        "send_email": true
+      }
+    oidcToken:
+      serviceAccountEmail: growth-engine-scheduler-sa@PROJECT_ID.iam.gserviceaccount.com
+
+# ==============================================================================
+# DAILY LEARNING UPDATE JOB
+# ==============================================================================
+# Updates ML models with new feedback daily
+---
+apiVersion: cloudscheduler.googleapis.com/v1
+kind: Job
+metadata:
+  name: growth-engine-learning-update
+  location: us-central1
+spec:
+  description: "Daily ML model learning update"
+  schedule: "0 2 * * *"  # 2 AM UTC daily
+  timeZone: "UTC"
+  attemptDeadline: "1800s"
+  retryConfig:
+    retryCount: 2
+  httpTarget:
+    uri: https://growth-engine-HASH-uc.a.run.app/api/v1/analytics/update-models
+    httpMethod: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "update_embeddings": true,
+        "retrain_fit_model": false
+      }
+    oidcToken:
+      serviceAccountEmail: growth-engine-scheduler-sa@PROJECT_ID.iam.gserviceaccount.com
+
+# ==============================================================================
+# HOURLY HEALTH CHECK JOB
+# ==============================================================================
+# System health check every hour
+---
+apiVersion: cloudscheduler.googleapis.com/v1
+kind: Job
+metadata:
+  name: growth-engine-health-check
+  location: us-central1
+spec:
+  description: "Hourly system health check"
+  schedule: "0 * * * *"  # Every hour
+  timeZone: "UTC"
+  attemptDeadline: "60s"
+  retryConfig:
+    retryCount: 1
+  httpTarget:
+    uri: https://growth-engine-HASH-uc.a.run.app/health
+    httpMethod: GET
+    oidcToken:
+      serviceAccountEmail: growth-engine-scheduler-sa@PROJECT_ID.iam.gserviceaccount.com

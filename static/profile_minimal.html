@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Accelerator</title>
+    <style>
+        /* Apple-inspired minimal design system - consistent with main page */
+        :root {
+            /* Colors - Simplified palette */
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-900: #171717;
+            --black: #000000;
+            
+            --blue: #007aff;
+            --blue-light: #f0f8ff;
+            --green: #34c759;
+            --green-light: #f0fff4;
+            --orange: #ff9500;
+            --orange-light: #fff8f0;
+            --red: #ff3b30;
+            
+            /* Semantic colors */
+            --bg-primary: var(--white);
+            --bg-secondary: var(--gray-50);
+            --bg-elevated: var(--white);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-tertiary: var(--gray-500);
+            --accent: var(--blue);
+            --border: var(--gray-200);
+            
+            /* Typography scale - Apple-like */
+            --text-xs: 11px;
+            --text-sm: 13px;
+            --text-base: 15px;
+            --text-lg: 17px;
+            --text-xl: 20px;
+            --text-2xl: 24px;
+            --text-3xl: 30px;
+            --text-4xl: 36px;
+            --text-5xl: 48px;
+            
+            /* Spacing - Apple's 8pt grid system */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            --space-24: 96px;
+            
+            /* Border radius - Consistent with iOS */
+            --radius-sm: 6px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows - Subtle depth */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            
+            /* Transitions - Apple's preferred timing */
+            --transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: var(--black);
+                --bg-secondary: #1c1c1e;
+                --bg-elevated: #2c2c2e;
+                --text-primary: var(--white);
+                --text-secondary: #98989d;
+                --text-tertiary: #636366;
+                --border: #48484a;
+                --accent: #0a84ff;
+                --blue-light: rgba(10, 132, 255, 0.1);
+                --green-light: rgba(52, 199, 89, 0.1);
+                --orange-light: rgba(255, 149, 0, 0.1);
+            }
+        }
+        
+        /* Reset - Clean slate */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            font-size: var(--text-base);
+            line-height: 1.5;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Page container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+        
+        /* Header */
+        .header {
+            padding: var(--space-6) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: var(--space-10);
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            text-decoration: none;
+            color: var(--accent);
+            font-size: var(--text-base);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .back-link:hover {
+            opacity: 0.7;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .btn-outline {
+            padding: var(--space-2) var(--space-4);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .btn-outline:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .btn-primary {
+            padding: var(--space-2) var(--space-4);
+            background: var(--accent);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-size: var(--text-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Page title */
+        .page-header {
+            margin-bottom: var(--space-10);
+        }
+        
+        .page-title {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-2);
+        }
+        
+        .page-subtitle {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        /* Profile completion card */
+        .completion-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-10);
+        }
+        
+        .completion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-5);
+        }
+        
+        .completion-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+        }
+        
+        .completion-score {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .completion-bar-container {
+            margin-bottom: var(--space-5);
+        }
+        
+        .completion-bar {
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        
+        .completion-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            transition: width 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+            width: 75%;
+        }
+        
+        .completion-sections {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+        
+        .section-badge {
+            padding: var(--space-1) var(--space-3);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .section-badge.complete {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        
+        .section-badge.missing {
+            background: var(--orange-light);
+            color: var(--orange);
+        }
+        
+        /* Form sections */
+        .form-section {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-6);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .section-header:hover {
+            background: var(--bg-secondary);
+        }
+        
+        .section-title {
+            font-size: var(--text-lg);
+            font-weight: 600;
+        }
+        
+        .section-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: var(--text-base);
+            transition: var(--transition);
+        }
+        
+        .section-body {
+            padding: var(--space-6);
+            display: none;
+        }
+        
+        .section-body.open {
+            display: block;
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+        
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--bg-primary);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right var(--space-3) center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Skills section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+        }
+        
+        .skill-tag {
+            padding: var(--space-2) var(--space-3);
+            background: var(--blue-light);
+            color: var(--accent);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .skill-remove {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: var(--text-sm);
+        }
+        
+        .skill-input {
+            min-width: 150px;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        
+        .skill-input::placeholder {
+            color: var(--text-tertiary);
+        }
+        
+        /* Action buttons */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-3);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border);
+            margin-top: var(--space-6);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-4);
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .page-title {
+                font-size: var(--text-3xl);
+            }
+            
+            .completion-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-2);
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* Animation for smooth interactions */
+        .section-header .section-toggle {
+            transform: rotate(0deg);
+            transition: transform 0.2s ease;
+        }
+        
+        .section-header.open .section-toggle {
+            transform: rotate(180deg);
+        }
+        
+        /* Status indicators */
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: var(--radius-full);
+            display: inline-block;
+            margin-right: var(--space-2);
+        }
+        
+        .status-complete {
+            background: var(--green);
+        }
+        
+        .status-incomplete {
+            background: var(--orange);
+        }
+        
+        .status-empty {
+            background: var(--gray-300);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="/" class="back-link">
+                ← Back to Dashboard
+            </a>
+            <div class="header-actions">
+                <a href="/auto-apply.html" class="btn-outline">Auto Apply</a>
+                <button class="btn-primary" onclick="saveProfile()">Save Profile</button>
+            </div>
+        </header>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Profile</h1>
+            <p class="page-subtitle">Complete your profile to get better opportunity matches and automated applications.</p>
+        </div>
+
+        <!-- Profile Completion Card -->
+        <div class="completion-card">
+            <div class="completion-header">
+                <h2 class="completion-title">Profile Completion</h2>
+                <div class="completion-score">75%</div>
+            </div>
+            
+            <div class="completion-bar-container">
+                <div class="completion-bar">
+                    <div class="completion-fill" style="width: 75%"></div>
+                </div>
+            </div>
+            
+            <div class="completion-sections">
+                <span class="section-badge complete">Basic Info</span>
+                <span class="section-badge complete">Contact</span>
+                <span class="section-badge complete">Skills</span>
+                <span class="section-badge missing">Experience</span>
+                <span class="section-badge missing">Education</span>
+                <span class="section-badge complete">Preferences</span>
+            </div>
+        </div>
+
+        <!-- Basic Information -->
+        <div class="form-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3 class="section-title">
+                    <span class="status-indicator status-complete"></span>
+                    Basic Information
+                </h3>
+                <button class="section-toggle">▼</button>
+            </div>
+            <div class="section-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-input" placeholder="Enter your first name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-input" placeholder="Enter your last name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="title">Professional Title</label>
+                    <input type="text" id="title" class="form-input" placeholder="e.g., Software Engineer, Data Scientist">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="bio">Professional Summary</label>
+                    <textarea id="bio" class="form-input form-textarea" placeholder="Brief summary of your professional background and goals..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3 class="section-title">
+                    <span class="status-indicator status-complete"></span>
+                    Contact Information
+                </h3>
+                <button class="section-toggle">▼</button>
+            </div>
+            <div class="section-body">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="your.email@example.com">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <input type="text" id="location" class="form-input" placeholder="City, State/Country">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="linkedin">LinkedIn URL</label>
+                        <input type="url" id="linkedin" class="form-input" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="github">GitHub URL</label>
+                        <input type="url" id="github" class="form-input" placeholder="https://github.com/yourusername">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="form-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3 class="section-title">
+                    <span class="status-indicator status-complete"></span>
+                    Skills & Technologies
+                </h3>
+                <button class="section-toggle">▼</button>
+            </div>
+            <div class="section-body">
+                <div class="form-group">
+                    <label class="form-label">Your Skills</label>
+                    <div class="skills-container" id="skillsContainer">
+                        <div class="skill-tag">
+                            JavaScript <button class="skill-remove" onclick="removeSkill(this)">×</button>
+                        </div>
+                        <div class="skill-tag">
+                            React <button class="skill-remove" onclick="removeSkill(this)">×</button>
+                        </div>
+                        <div class="skill-tag">
+                            Python <button class="skill-remove" onclick="removeSkill(this)">×</button>
+                        </div>
+                        <input type="text" class="skill-input" placeholder="Add a skill..." onkeypress="addSkill(event)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3 class="section-title">
+                    <span class="status-indicator status-incomplete"></span>
+                    Work Experience
+                </h3>
+                <button class="section-toggle">▼</button>
+            </div>
+            <div class="section-body">
+                <div class="form-group">
+                    <label class="form-label" for="company">Current/Most Recent Company</label>
+                    <input type="text" id="company" class="form-input" placeholder="Company name">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="position">Position</label>
+                        <input type="text" id="position" class="form-input" placeholder="Your job title">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="experience">Years of Experience</label>
+                        <select id="experience" class="form-input form-select">
+                            <option value="">Select experience level</option>
+                            <option value="0-1">0-1 years (Entry level)</option>
+                            <option value="2-3">2-3 years</option>
+                            <option value="4-5">4-5 years</option>
+                            <option value="6-10">6-10 years</option>
+                            <option value="10+">10+ years (Senior)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="achievements">Key Achievements</label>
+                    <textarea id="achievements" class="form-input form-textarea" placeholder="Describe your major accomplishments and impact..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="form-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3 class="section-title">
+                    <span class="status-indicator status-incomplete"></span>
+                    Education
+                </h3>
+                <button class="section-toggle">▼</button>
+            </div>
+            <div class="section-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="degree">Highest Degree</label>
+                        <select id="degree" class="form-input form-select">
+                            <option value="">Select degree</option>
+                            <option value="high-school">High School</option>
+                            <option value="associate">Associate Degree</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="master">Master's Degree</option>
+                            <option value="phd">PhD</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="field">Field of Study</label>
+                        <input type="text" id="field" class="form-input" placeholder="e.g., Computer Science">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="school">Institution</label>
+                    <input type="text" id="school" class="form-input" placeholder="University or school name">
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Preferences -->
+        <div class="form-section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h3 class="section-title">
+                    <span class="status-indicator status-complete"></span>
+                    Job Preferences
+                </h3>
+                <button class="section-toggle">▼</button>
+            </div>
+            <div class="section-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="jobType">Employment Type</label>
+                        <select id="jobType" class="form-input form-select">
+                            <option value="">Select type</option>
+                            <option value="full-time">Full-time</option>
+                            <option value="part-time">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="freelance">Freelance</option>
+                            <option value="internship">Internship</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="workStyle">Work Style</label>
+                        <select id="workStyle" class="form-input form-select">
+                            <option value="">Select preference</option>
+                            <option value="remote">Remote</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="onsite">On-site</option>
+                            <option value="any">Any</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="minSalary">Minimum Salary</label>
+                        <input type="number" id="minSalary" class="form-input" placeholder="50000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="currency">Currency</label>
+                        <select id="currency" class="form-input form-select">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="CAD">CAD ($)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="targetRoles">Target Roles</label>
+                    <textarea id="targetRoles" class="form-input form-textarea" placeholder="List the types of roles you're interested in..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button class="btn-outline" onclick="resetForm()">Reset</button>
+            <button class="btn-primary" onclick="saveProfile()">Save Profile</button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle section expansion
+        function toggleSection(header) {
+            const body = header.nextElementSibling;
+            const isOpen = body.classList.contains('open');
+            
+            // Close all sections
+            document.querySelectorAll('.section-body').forEach(section => {
+                section.classList.remove('open');
+            });
+            document.querySelectorAll('.section-header').forEach(h => {
+                h.classList.remove('open');
+            });
+            
+            // Open clicked section if it was closed
+            if (!isOpen) {
+                body.classList.add('open');
+                header.classList.add('open');
+            }
+        }
+
+        // Skills management
+        function addSkill(event) {
+            if (event.key === 'Enter' && event.target.value.trim()) {
+                const skillText = event.target.value.trim();
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag';
+                skillTag.innerHTML = `${skillText} <button class="skill-remove" onclick="removeSkill(this)">×</button>`;
+                
+                const container = document.getElementById('skillsContainer');
+                container.insertBefore(skillTag, event.target);
+                event.target.value = '';
+            }
+        }
+
+        function removeSkill(button) {
+            button.parentElement.remove();
+        }
+
+        // Profile actions
+        function saveProfile() {
+            // Simulate saving
+            setTimeout(() => {
+                alert('Profile saved successfully!');
+            }, 500);
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset all changes?')) {
+                document.querySelectorAll('input, textarea, select').forEach(field => {
+                    field.value = '';
+                });
+                
+                // Reset skills to default
+                const skillsContainer = document.getElementById('skillsContainer');
+                skillsContainer.innerHTML = `
+                    <div class="skill-tag">
+                        JavaScript <button class="skill-remove" onclick="removeSkill(this)">×</button>
+                    </div>
+                    <div class="skill-tag">
+                        React <button class="skill-remove" onclick="removeSkill(this)">×</button>
+                    </div>
+                    <div class="skill-tag">
+                        Python <button class="skill-remove" onclick="removeSkill(this)">×</button>
+                    </div>
+                    <input type="text" class="skill-input" placeholder="Add a skill..." onkeypress="addSkill(event)">
+                `;
+            }
+        }
+
+        // Initialize first section as open
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstSection = document.querySelector('.section-header');
+            if (firstSection) {
+                toggleSection(firstSection);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+# Cloud Run Service Configuration
+# Growth Engine API Service
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: growth-engine
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/launch-stage: GA
+spec:
+  template:
+    metadata:
+      annotations:
+        # Auto-scaling configuration
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "10"
+        
+        # CPU allocation
+        run.googleapis.com/cpu-throttling: "false"
+        run.googleapis.com/startup-cpu-boost: "true"
+        
+        # VPC connector for private network access
+        # run.googleapis.com/vpc-access-connector: projects/PROJECT_ID/locations/us-central1/connectors/growth-engine-vpc
+        # run.googleapis.com/vpc-access-egress: private-ranges-only
+        
+    spec:
+      # Service account with minimal permissions
+      serviceAccountName: growth-engine-sa@PROJECT_ID.iam.gserviceaccount.com
+      
+      # Container concurrency
+      containerConcurrency: 80
+      
+      # Request timeout
+      timeoutSeconds: 3600
+      
+      containers:
+        - image: gcr.io/PROJECT_ID/growth-engine:latest
+          name: growth-engine
+          
+          ports:
+            - containerPort: 8000
+              name: http1
+          
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "2"
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+          
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: PORT
+              value: "8000"
+            - name: WORKERS
+              value: "4"
+            
+            # Secrets from Secret Manager
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-url
+                  key: latest
+            
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: google-api-key
+                  key: latest
+            
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: anthropic-api-key
+                  key: latest
+            
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-key
+                  key: latest
+            
+            - name: PINECONE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: pinecone-api-key
+                  key: latest
+          
+          # Health checks
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+          
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            failureThreshold: 3
+            timeoutSeconds: 5
+          
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+
+  traffic:
+    - percent: 100
+      latestRevision: true

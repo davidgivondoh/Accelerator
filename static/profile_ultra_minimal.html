@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Accelerator</title>
+    <style>
+        /* Ultra-minimal design inspired by Google's clarity */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #202124;
+            background: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #000;
+                color: #e8eaed;
+            }
+        }
+        
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Back link */
+        .back-link {
+            display: inline-block;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Page title */
+        .title {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #5f6368;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .subtitle {
+                color: #9aa0a6;
+            }
+        }
+        
+        /* Form sections */
+        .section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid #dadce0;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            color: #202124;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .section {
+                border-bottom: 1px solid #3c4043;
+            }
+            .section-title {
+                color: #e8eaed;
+            }
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .label {
+            display: block;
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 6px;
+        }
+        
+        .input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #fff;
+            color: #202124;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .input:focus {
+            border-color: #1a73e8;
+        }
+        
+        .textarea {
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .label {
+                color: #9aa0a6;
+            }
+            .input {
+                background: #202124;
+                border: 1px solid #5f6368;
+                color: #e8eaed;
+            }
+            .input:focus {
+                border-color: #8ab4f8;
+            }
+        }
+        
+        /* Two column layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Skills section */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .skill {
+            background: #f1f3f4;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            color: #3c4043;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .skill-remove {
+            background: none;
+            border: none;
+            color: #5f6368;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+        
+        .skill-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            min-width: 100px;
+            font-size: 14px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .skill {
+                background: #3c4043;
+                color: #e8eaed;
+            }
+            .skill-remove {
+                color: #9aa0a6;
+            }
+        }
+        
+        /* Save button */
+        .save-button {
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 24px;
+        }
+        
+        .save-button:hover {
+            background: #1557b0;
+        }
+        
+        .save-button:disabled {
+            background: #f1f3f4;
+            color: #5f6368;
+            cursor: not-allowed;
+        }
+        
+        /* Progress indicator */
+        .progress {
+            background: #f1f3f4;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .progress-fill {
+            background: #1a73e8;
+            height: 100%;
+            width: 60%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .progress {
+                background: #3c4043;
+            }
+            .progress-text {
+                color: #9aa0a6;
+            }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 16px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Accelerator</a>
+        
+        <h1 class="title">Complete your profile</h1>
+        <p class="subtitle">Help us find better opportunities for you</p>
+        
+        <div class="progress-text">Profile completion: 60%</div>
+        <div class="progress">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <form id="profileForm">
+            <!-- Basic Information -->
+            <div class="section">
+                <h2 class="section-title">Basic Information</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="label" for="firstName">First name</label>
+                        <input type="text" id="firstName" class="input" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="lastName">Last name</label>
+                        <input type="text" id="lastName" class="input" placeholder="Doe">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="email">Email</label>
+                    <input type="email" id="email" class="input" placeholder="john@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="phone">Phone</label>
+                    <input type="tel" id="phone" class="input" placeholder="+1 (555) 123-4567">
+                </div>
+            </div>
+            
+            <!-- Professional Information -->
+            <div class="section">
+                <h2 class="section-title">Professional Information</h2>
+                
+                <div class="form-group">
+                    <label class="label" for="title">Current role</label>
+                    <input type="text" id="title" class="input" placeholder="Software Engineer">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="company">Current company</label>
+                    <input type="text" id="company" class="input" placeholder="Google">
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="experience">Years of experience</label>
+                    <select id="experience" class="input">
+                        <option value="">Select experience</option>
+                        <option value="0-1">0-1 years</option>
+                        <option value="2-3">2-3 years</option>
+                        <option value="4-5">4-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="bio">Professional summary</label>
+                    <textarea id="bio" class="input textarea" placeholder="Brief summary of your professional background..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Skills -->
+            <div class="section">
+                <h2 class="section-title">Skills</h2>
+                
+                <div class="form-group">
+                    <label class="label">Your skills</label>
+                    <div class="skills" id="skillsContainer">
+                        <div class="skill">
+                            JavaScript
+                            <button type="button" class="skill-remove" onclick="removeSkill(this)">×</button>
+                        </div>
+                        <div class="skill">
+                            React
+                            <button type="button" class="skill-remove" onclick="removeSkill(this)">×</button>
+                        </div>
+                        <div class="skill">
+                            Python
+                            <button type="button" class="skill-remove" onclick="removeSkill(this)">×</button>
+                        </div>
+                        <input type="text" class="skill-input" placeholder="Add skill..." onkeypress="addSkill(event)">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Job Preferences -->
+            <div class="section">
+                <h2 class="section-title">Job Preferences</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="label" for="jobType">Employment type</label>
+                        <select id="jobType" class="input">
+                            <option value="">Select type</option>
+                            <option value="full-time">Full-time</option>
+                            <option value="part-time">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="freelance">Freelance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="remote">Work preference</label>
+                        <select id="remote" class="input">
+                            <option value="">Select preference</option>
+                            <option value="remote">Remote</option>
+                            <option value="hybrid">Hybrid</option>
+                            <option value="onsite">On-site</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="label" for="salary">Desired salary (annual)</label>
+                    <input type="number" id="salary" class="input" placeholder="75000">
+                </div>
+            </div>
+            
+            <button type="submit" class="save-button">Save Profile</button>
+        </form>
+    </div>
+    
+    <script>
+        // Handle form submission
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const button = document.querySelector('.save-button');
+            button.textContent = 'Saving...';
+            button.disabled = true;
+            
+            // Simulate save
+            setTimeout(() => {
+                button.textContent = 'Saved';
+                setTimeout(() => {
+                    button.textContent = 'Save Profile';
+                    button.disabled = false;
+                }, 1000);
+            }, 1000);
+        });
+        
+        // Skills management
+        function addSkill(event) {
+            if (event.key === 'Enter' && event.target.value.trim()) {
+                const skillText = event.target.value.trim();
+                const skillElement = document.createElement('div');
+                skillElement.className = 'skill';
+                skillElement.innerHTML = `
+                    ${skillText}
+                    <button type="button" class="skill-remove" onclick="removeSkill(this)">×</button>
+                `;
+                
+                const container = document.getElementById('skillsContainer');
+                container.insertBefore(skillElement, event.target);
+                event.target.value = '';
+                updateProgress();
+            }
+        }
+        
+        function removeSkill(button) {
+            button.parentElement.remove();
+            updateProgress();
+        }
+        
+        // Update progress based on filled fields
+        function updateProgress() {
+            const form = document.getElementById('profileForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            let filled = 0;
+            
+            inputs.forEach(input => {
+                if (input.value.trim()) filled++;
+            });
+            
+            const percentage = Math.round((filled / inputs.length) * 100);
+            document.querySelector('.progress-fill').style.width = percentage + '%';
+            document.querySelector('.progress-text').textContent = `Profile completion: ${percentage}%`;
+        }
+        
+        // Update progress on input
+        document.addEventListener('input', updateProgress);
+        document.addEventListener('change', updateProgress);
+        
+        // Initial progress update
+        updateProgress();
+    </script>
+</body>
+</html>

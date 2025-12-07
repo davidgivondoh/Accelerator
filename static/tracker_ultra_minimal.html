@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker - Accelerator</title>
+    <style>
+        /* Ultra-minimal design inspired by Google's clarity */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #202124;
+            background: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #000;
+                color: #e8eaed;
+            }
+        }
+        
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .back-link {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .add-button {
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .add-button:hover {
+            background: #1557b0;
+        }
+        
+        /* Title */
+        .title {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #5f6368;
+            margin-bottom: 32px;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .subtitle {
+                color: #9aa0a6;
+            }
+        }
+        
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #5f6368;
+        }
+        
+        .stat.total .stat-number { color: #1a73e8; }
+        .stat.pending .stat-number { color: #f9ab00; }
+        .stat.interviewing .stat-number { color: #9c27b0; }
+        .stat.offers .stat-number { color: #137333; }
+        .stat.rejected .stat-number { color: #d93025; }
+        
+        @media (prefers-color-scheme: dark) {
+            .stat {
+                border: 1px solid #3c4043;
+            }
+            .stat-label {
+                color: #9aa0a6;
+            }
+        }
+        
+        /* Search */
+        .search-container {
+            margin-bottom: 24px;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #fff;
+            color: #202124;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #1a73e8;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .search-input {
+                background: #202124;
+                border: 1px solid #5f6368;
+                color: #e8eaed;
+            }
+            .search-input:focus {
+                border-color: #8ab4f8;
+            }
+        }
+        
+        /* Applications list */
+        .applications {
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .application {
+            padding: 20px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.1s;
+        }
+        
+        .application:last-child {
+            border-bottom: none;
+        }
+        
+        .application:hover {
+            background: #f8f9fa;
+        }
+        
+        .app-info h3 {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        
+        .app-company {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 4px;
+        }
+        
+        .app-date {
+            font-size: 12px;
+            color: #70757a;
+        }
+        
+        .app-status {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-applied {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .status-interviewing {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .status-offer {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .status-rejected {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .status-pending {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .applications {
+                border: 1px solid #3c4043;
+            }
+            .application {
+                border-bottom: 1px solid #3c4043;
+            }
+            .application:hover {
+                background: #1f1f1f;
+            }
+            .app-company {
+                color: #9aa0a6;
+            }
+            .app-date {
+                color: #9aa0a6;
+            }
+            .status-applied {
+                background: rgba(33, 150, 243, 0.2);
+                color: #90caf9;
+            }
+            .status-interviewing {
+                background: rgba(156, 39, 176, 0.2);
+                color: #ce93d8;
+            }
+            .status-offer {
+                background: rgba(76, 175, 80, 0.2);
+                color: #a5d6a7;
+            }
+            .status-rejected {
+                background: rgba(244, 67, 54, 0.2);
+                color: #ef9a9a;
+            }
+            .status-pending {
+                background: rgba(255, 152, 0, 0.2);
+                color: #ffcc02;
+            }
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5f6368;
+        }
+        
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #202124;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .empty-state {
+                color: #9aa0a6;
+            }
+            .empty-state h3 {
+                color: #e8eaed;
+            }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 16px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .application {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .app-status {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <a href="/" class="back-link">← Back to Accelerator</a>
+                <h1 class="title">Application Tracker</h1>
+                <p class="subtitle">Track your job applications</p>
+            </div>
+            <button class="add-button" onclick="addApplication()">+ Add Application</button>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat total">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat pending">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat interviewing">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Interviewing</div>
+            </div>
+            <div class="stat offers">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Offers</div>
+            </div>
+            <div class="stat rejected">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+        
+        <!-- Search -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search applications..." onkeyup="filterApplications(this.value)">
+        </div>
+        
+        <!-- Applications list -->
+        <div class="applications" id="applicationsList">
+            <div class="application" data-company="google" data-title="software engineer">
+                <div class="app-info">
+                    <h3>Software Engineer</h3>
+                    <div class="app-company">Google</div>
+                    <div class="app-date">Applied 2 weeks ago</div>
+                </div>
+                <div class="app-status status-interviewing">Interviewing</div>
+            </div>
+            
+            <div class="application" data-company="microsoft" data-title="product manager">
+                <div class="app-info">
+                    <h3>Product Manager</h3>
+                    <div class="app-company">Microsoft</div>
+                    <div class="app-date">Applied 3 weeks ago</div>
+                </div>
+                <div class="app-status status-offer">Offer</div>
+            </div>
+            
+            <div class="application" data-company="apple" data-title="ios developer">
+                <div class="app-info">
+                    <h3>iOS Developer</h3>
+                    <div class="app-company">Apple</div>
+                    <div class="app-date">Applied 1 week ago</div>
+                </div>
+                <div class="app-status status-applied">Applied</div>
+            </div>
+            
+            <div class="application" data-company="facebook" data-title="data scientist">
+                <div class="app-info">
+                    <h3>Data Scientist</h3>
+                    <div class="app-company">Meta</div>
+                    <div class="app-date">Applied 1 month ago</div>
+                </div>
+                <div class="app-status status-rejected">Rejected</div>
+            </div>
+            
+            <div class="application" data-company="netflix" data-title="frontend engineer">
+                <div class="app-info">
+                    <h3>Frontend Engineer</h3>
+                    <div class="app-company">Netflix</div>
+                    <div class="app-date">Applied 5 days ago</div>
+                </div>
+                <div class="app-status status-pending">Pending</div>
+            </div>
+        </div>
+        
+        <!-- Empty state (hidden by default) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h3>No applications found</h3>
+            <p>Start tracking your job applications to stay organized.</p>
+        </div>
+    </div>
+    
+    <script>
+        function addApplication() {
+            const title = prompt('Job title:');
+            const company = prompt('Company:');
+            
+            if (title && company) {
+                const applicationsList = document.getElementById('applicationsList');
+                const newApp = document.createElement('div');
+                newApp.className = 'application';
+                newApp.setAttribute('data-company', company.toLowerCase());
+                newApp.setAttribute('data-title', title.toLowerCase());
+                
+                newApp.innerHTML = `
+                    <div class="app-info">
+                        <h3>${title}</h3>
+                        <div class="app-company">${company}</div>
+                        <div class="app-date">Applied just now</div>
+                    </div>
+                    <div class="app-status status-applied">Applied</div>
+                `;
+                
+                applicationsList.prepend(newApp);
+                updateStats();
+            }
+        }
+        
+        function filterApplications(query) {
+            const applications = document.querySelectorAll('.application');
+            const emptyState = document.getElementById('emptyState');
+            const applicationsList = document.getElementById('applicationsList');
+            let visibleCount = 0;
+            
+            applications.forEach(app => {
+                const title = app.getAttribute('data-title');
+                const company = app.getAttribute('data-company');
+                const matches = title.includes(query.toLowerCase()) || company.includes(query.toLowerCase());
+                
+                if (matches) {
+                    app.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    app.style.display = 'none';
+                }
+            });
+            
+            if (visibleCount === 0 && query) {
+                applicationsList.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                applicationsList.style.display = 'block';
+                emptyState.style.display = 'none';
+            }
+        }
+        
+        function updateStats() {
+            const applications = document.querySelectorAll('.application');
+            const total = applications.length;
+            
+            let pending = 0, interviewing = 0, offers = 0, rejected = 0;
+            
+            applications.forEach(app => {
+                const status = app.querySelector('.app-status');
+                if (status.classList.contains('status-pending')) pending++;
+                else if (status.classList.contains('status-interviewing')) interviewing++;
+                else if (status.classList.contains('status-offer')) offers++;
+                else if (status.classList.contains('status-rejected')) rejected++;
+            });
+            
+            document.querySelector('.stat.total .stat-number').textContent = total;
+            document.querySelector('.stat.pending .stat-number').textContent = pending;
+            document.querySelector('.stat.interviewing .stat-number').textContent = interviewing;
+            document.querySelector('.stat.offers .stat-number').textContent = offers;
+            document.querySelector('.stat.rejected .stat-number').textContent = rejected;
+        }
+        
+        // Allow clicking on applications to edit status
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('app-status')) {
+                const statuses = ['Applied', 'Pending', 'Interviewing', 'Offer', 'Rejected'];
+                const currentStatus = e.target.textContent;
+                const currentIndex = statuses.indexOf(currentStatus);
+                const nextIndex = (currentIndex + 1) % statuses.length;
+                const nextStatus = statuses[nextIndex];
+                
+                e.target.textContent = nextStatus;
+                e.target.className = `app-status status-${nextStatus.toLowerCase()}`;
+                
+                updateStats();
+            }
+        });
+    </script>
+</body>
+</html>

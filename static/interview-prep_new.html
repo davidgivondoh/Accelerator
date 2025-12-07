@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep - Accelerator</title>
+    <meta name="description" content="AI-powered interview preparation with personalized practice sessions and performance analytics">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Design System - Shared with other pages */
+        :root {
+            --primary-50: #eff6ff;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --success-400: #34d399;
+            --success-500: #10b981;
+            --warning-400: #fbbf24;
+            --warning-500: #f59e0b;
+            --error-500: #ef4444;
+            --purple-500: #8b5cf6;
+            --indigo-500: #6366f1;
+            --emerald-500: #10b981;
+            --accent: var(--primary-600);
+            --accent-hover: var(--primary-700);
+            --accent-light: var(--primary-50);
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--gray-50);
+            --bg-elevated: #ffffff;
+            --bg-overlay: rgba(255, 255, 255, 0.95);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-inverse: #ffffff;
+            --border-primary: var(--gray-200);
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: var(--gray-900);
+                --bg-secondary: var(--gray-800);
+                --bg-elevated: var(--gray-800);
+                --bg-overlay: rgba(17, 24, 39, 0.95);
+                --text-primary: var(--gray-100);
+                --text-secondary: var(--gray-300);
+                --border-primary: var(--gray-700);
+                --accent: var(--primary-500);
+            }
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-overlay);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .nav-logo {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary-700));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-inverse);
+            font-size: 0.875rem;
+        }
+        
+        .nav-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1.25rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0.25rem;
+            height: 0.25rem;
+            background: var(--accent);
+            border-radius: var(--radius-full);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+        
+        /* Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .page-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 36rem;
+            margin: 0 auto;
+        }
+        
+        /* Quick Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .stat-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .stat-card.sessions::before { background: linear-gradient(45deg, var(--accent), var(--primary-700)); }
+        .stat-card.accuracy::before { background: linear-gradient(45deg, var(--success-400), var(--success-500)); }
+        .stat-card.improvement::before { background: linear-gradient(45deg, var(--purple-500), var(--indigo-500)); }
+        .stat-card.streak::before { background: linear-gradient(45deg, var(--warning-400), var(--warning-500)); }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stat-card.sessions .stat-value { color: var(--accent); }
+        .stat-card.accuracy .stat-value { color: var(--success-500); }
+        .stat-card.improvement .stat-value { color: var(--purple-500); }
+        .stat-card.streak .stat-value { color: var(--warning-500); }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Practice Sessions */
+        .practice-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        @media (max-width: 1024px) {
+            .practice-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .practice-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            transition: all var(--transition-base);
+        }
+        
+        .practice-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .practice-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .practice-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .practice-icon.technical { background: linear-gradient(135deg, var(--accent), var(--primary-700)); color: var(--text-inverse); }
+        .practice-icon.behavioral { background: linear-gradient(135deg, var(--success-400), var(--success-500)); color: var(--text-inverse); }
+        .practice-icon.system { background: linear-gradient(135deg, var(--purple-500), var(--indigo-500)); color: var(--text-inverse); }
+        .practice-icon.mock { background: linear-gradient(135deg, var(--warning-400), var(--warning-500)); color: var(--text-inverse); }
+        
+        .practice-content {
+            flex: 1;
+        }
+        
+        .practice-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .practice-desc {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .practice-stats {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .practice-stat {
+            text-align: center;
+        }
+        
+        .practice-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .practice-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .progress-item {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+        }
+        
+        .progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-md);
+        }
+        
+        .progress-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .progress-score {
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .progress-bar {
+            height: 0.5rem;
+            background: var(--gray-200);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary-700));
+            border-radius: var(--radius-full);
+            transition: width var(--transition-base);
+        }
+        
+        .progress-trend {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .trend-up { color: var(--success-500); }
+        .trend-down { color: var(--error-500); }
+        
+        /* Recent Sessions */
+        .sessions-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-xl);
+        }
+        
+        @media (max-width: 1024px) {
+            .sessions-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .sessions-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-2xl);
+        }
+        
+        .sessions-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .session-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+        }
+        
+        .session-item:hover {
+            background: var(--gray-100);
+            transform: translateX(4px);
+        }
+        
+        .session-type {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .session-content {
+            flex: 1;
+        }
+        
+        .session-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .session-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .session-score {
+            font-weight: 700;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+        }
+        
+        .score-excellent { background: rgba(16, 185, 129, 0.1); color: var(--success-500); }
+        .score-good { background: rgba(59, 130, 246, 0.1); color: var(--accent); }
+        .score-average { background: rgba(251, 191, 36, 0.1); color: var(--warning-500); }
+        
+        /* Buttons */
+        .btn-primary {
+            padding: var(--space-md) var(--space-xl);
+            background: var(--accent);
+            color: var(--text-inverse);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            padding: var(--space-sm) var(--space-lg);
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .btn-large {
+            padding: var(--space-lg) var(--space-2xl);
+            font-size: 1.125rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 var(--space-md);
+            }
+            
+            .container {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .practice-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo">A</div>
+                <span class="nav-title">Accelerator</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/analytics.html" class="nav-link">Analytics</a>
+                <a href="/tracker.html" class="nav-link">Tracker</a>
+                <a href="/auto-apply.html" class="nav-link">Auto-Apply</a>
+                <a href="/interview-prep.html" class="nav-link active">Interview Prep</a>
+                <a href="/profile.html" class="nav-link">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1 class="page-title">Interview Preparation</h1>
+            <p class="page-subtitle">
+                AI-powered interview practice with personalized feedback and performance analytics
+            </p>
+        </div>
+
+        <!-- Quick Stats -->
+        <section class="stats-grid">
+            <div class="stat-card sessions">
+                <div class="stat-value" id="totalSessions">42</div>
+                <div class="stat-label">Practice Sessions</div>
+            </div>
+            <div class="stat-card accuracy">
+                <div class="stat-value" id="averageScore">87%</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card improvement">
+                <div class="stat-value" id="improvement">+23%</div>
+                <div class="stat-label">Improvement</div>
+            </div>
+            <div class="stat-card streak">
+                <div class="stat-value" id="currentStreak">7</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+        </section>
+
+        <!-- Practice Types -->
+        <section class="practice-section">
+            <div class="practice-card">
+                <div class="practice-header">
+                    <div class="practice-icon technical">💻</div>
+                    <div class="practice-content">
+                        <h3 class="practice-title">Technical Interviews</h3>
+                        <p class="practice-desc">Coding challenges, algorithms, and system design questions</p>
+                    </div>
+                </div>
+                <div class="practice-stats">
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">15</div>
+                        <div class="practice-stat-label">Completed</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">92%</div>
+                        <div class="practice-stat-label">Avg Score</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">45min</div>
+                        <div class="practice-stat-label">Avg Time</div>
+                    </div>
+                </div>
+                <a href="#" class="btn-primary btn-large">Start Practice</a>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-header">
+                    <div class="practice-icon behavioral">🎯</div>
+                    <div class="practice-content">
+                        <h3 class="practice-title">Behavioral Interviews</h3>
+                        <p class="practice-desc">STAR method practice with common behavioral questions</p>
+                    </div>
+                </div>
+                <div class="practice-stats">
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">12</div>
+                        <div class="practice-stat-label">Completed</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">85%</div>
+                        <div class="practice-stat-label">Avg Score</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">25min</div>
+                        <div class="practice-stat-label">Avg Time</div>
+                    </div>
+                </div>
+                <a href="#" class="btn-primary btn-large">Start Practice</a>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-header">
+                    <div class="practice-icon system">🏗️</div>
+                    <div class="practice-content">
+                        <h3 class="practice-title">System Design</h3>
+                        <p class="practice-desc">Large-scale system architecture and design principles</p>
+                    </div>
+                </div>
+                <div class="practice-stats">
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">8</div>
+                        <div class="practice-stat-label">Completed</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">78%</div>
+                        <div class="practice-stat-label">Avg Score</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">60min</div>
+                        <div class="practice-stat-label">Avg Time</div>
+                    </div>
+                </div>
+                <a href="#" class="btn-primary btn-large">Start Practice</a>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-header">
+                    <div class="practice-icon mock">🎤</div>
+                    <div class="practice-content">
+                        <h3 class="practice-title">Mock Interviews</h3>
+                        <p class="practice-desc">Full interview simulations with AI interviewer</p>
+                    </div>
+                </div>
+                <div class="practice-stats">
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">7</div>
+                        <div class="practice-stat-label">Completed</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">89%</div>
+                        <div class="practice-stat-label">Avg Score</div>
+                    </div>
+                    <div class="practice-stat">
+                        <div class="practice-stat-value">90min</div>
+                        <div class="practice-stat-label">Avg Time</div>
+                    </div>
+                </div>
+                <a href="#" class="btn-primary btn-large">Start Practice</a>
+            </div>
+        </section>
+
+        <!-- Progress Tracking -->
+        <section class="progress-section">
+            <div class="section-header">
+                <h2 class="section-title">Skill Progress</h2>
+                <button class="btn-secondary">View Details</button>
+            </div>
+            <div class="progress-grid">
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-name">Data Structures</span>
+                        <span class="progress-score">94%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94%"></div>
+                    </div>
+                    <div class="progress-trend trend-up">↗️ +12% this week</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-name">Algorithms</span>
+                        <span class="progress-score">88%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 88%"></div>
+                    </div>
+                    <div class="progress-trend trend-up">↗️ +8% this week</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-name">System Design</span>
+                        <span class="progress-score">76%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 76%"></div>
+                    </div>
+                    <div class="progress-trend trend-up">↗️ +15% this week</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-name">Communication</span>
+                        <span class="progress-score">91%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 91%"></div>
+                    </div>
+                    <div class="progress-trend trend-up">↗️ +5% this week</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Sessions -->
+        <section class="sessions-section">
+            <div class="sessions-card">
+                <div class="section-header">
+                    <h3 class="section-title">Recent Practice Sessions</h3>
+                    <button class="btn-secondary">View All</button>
+                </div>
+                <div class="sessions-list" id="recentSessions">
+                    <div class="session-item">
+                        <div class="session-type technical" style="background: rgba(59, 130, 246, 0.1); color: var(--accent);">💻</div>
+                        <div class="session-content">
+                            <div class="session-title">Binary Tree Algorithms</div>
+                            <div class="session-meta">2 hours ago • 35 minutes</div>
+                        </div>
+                        <div class="session-score score-excellent">94%</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-type behavioral" style="background: rgba(16, 185, 129, 0.1); color: var(--success-500);">🎯</div>
+                        <div class="session-content">
+                            <div class="session-title">Leadership Experience</div>
+                            <div class="session-meta">Yesterday • 20 minutes</div>
+                        </div>
+                        <div class="session-score score-good">87%</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-type system" style="background: rgba(139, 92, 246, 0.1); color: var(--purple-500);">🏗️</div>
+                        <div class="session-content">
+                            <div class="session-title">Design a Chat System</div>
+                            <div class="session-meta">2 days ago • 55 minutes</div>
+                        </div>
+                        <div class="session-score score-average">76%</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-type mock" style="background: rgba(251, 191, 36, 0.1); color: var(--warning-500);">🎤</div>
+                        <div class="session-content">
+                            <div class="session-title">Full Stack Developer Mock</div>
+                            <div class="session-meta">3 days ago • 90 minutes</div>
+                        </div>
+                        <div class="session-score score-excellent">92%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sessions-card">
+                <div class="section-header">
+                    <h3 class="section-title">AI Insights</h3>
+                </div>
+                <div class="sessions-list">
+                    <div class="session-item">
+                        <div class="session-type" style="background: rgba(16, 185, 129, 0.1); color: var(--success-500);">💡</div>
+                        <div class="session-content">
+                            <div class="session-title">Strong in Data Structures</div>
+                            <div class="session-meta">Your tree and graph solutions are excellent</div>
+                        </div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-type" style="background: rgba(251, 191, 36, 0.1); color: var(--warning-500);">⚠️</div>
+                        <div class="session-content">
+                            <div class="session-title">Focus on Scalability</div>
+                            <div class="session-meta">Practice more distributed systems concepts</div>
+                        </div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-type" style="background: rgba(59, 130, 246, 0.1); color: var(--accent);">📈</div>
+                        <div class="session-content">
+                            <div class="session-title">Improving Steadily</div>
+                            <div class="session-meta">23% improvement over last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Initialize the interview prep dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            animateProgressBars();
+        });
+
+        function initializeDashboard() {
+            animateStats();
+            loadRecentSessions();
+        }
+
+        function animateStats() {
+            const stats = [
+                { id: 'totalSessions', target: 42 },
+                { id: 'improvement', target: 23, suffix: '%', prefix: '+' },
+                { id: 'currentStreak', target: 7 }
+            ];
+
+            stats.forEach(stat => {
+                const element = document.getElementById(stat.id);
+                if (stat.id === 'averageScore') return; // Skip percentage animation for now
+                animateValue(element, 0, stat.target, 1000, stat.prefix, stat.suffix);
+            });
+        }
+
+        function animateValue(element, start, end, duration, prefix = '', suffix = '') {
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentValue = Math.floor(start + (end - start) * progress);
+                
+                element.textContent = prefix + currentValue + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width || '0%';
+                }, index * 200);
+            });
+        }
+
+        function loadRecentSessions() {
+            // In a real app, this would load from an API
+            console.log('Loading recent sessions...');
+        }
+    </script>
+</body>
+</html>

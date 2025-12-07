@@ -1,0 +1,447 @@
+# ===========================================
+# 📋 GIVONDO GROWTH ENGINE - Profile Data
+# ===========================================
+# David Givondo (Givondo the Scientist)
+# Founder & Systems Engineer — Precifarm AI Ltd
+# ===========================================
+
+# Basic Information
+full_name: "David Givondo"
+preferred_name: "Givondo the Scientist"
+email: "david@precifarm.ai"
+phone: "+254-XXX-XXX-XXX"
+location: "Eldoret, Kenya (1125-30100)"
+
+# Online Presence
+linkedin_url: "https://linkedin.com/in/davidgivondo"
+github_url: "https://github.com/givondo"
+portfolio_url: "https://precifarm.ai"
+twitter_url: "https://twitter.com/givondo"
+
+# Professional Summary
+headline: "Systems Engineer | AI Architect | Founder — Building Africa's First Intelligence-Native Engineering Ecosystem"
+
+summary: |
+  I am a systems engineer, AI architect, and founder building Africa's first 
+  intelligence-native engineering ecosystem. My mission is to unify Africa's 
+  fractured hardware, software, and field-engineering processes into one 
+  continuous, self-optimizing intelligence loop — enabling millions to design, 
+  build, repair, and scale technology with unprecedented speed and clarity.
+  
+  I blend system design, AI agents, IoT, hardware design, and mobile/AR interfaces 
+  to solve problems at continental scale. Through Precifarm AI Ltd, I'm building 
+  a multi-brand engineering ecosystem that integrates AI-native development, 
+  repair intelligence, and clean energy solutions.
+  
+  My field experience at SunCulture Kenya exposed a core insight: the hardware 
+  lifecycle fails due to fragmentation — design, deployment, maintenance, repair, 
+  feedback all operate in silos. Precifarm is my systemic solution.
+
+# Education
+education:
+  - institution: "Self-Directed Learning & Field Experience"
+    degree: "Systems Engineering"
+    field: "AI, Multi-Agent Systems, Hardware Design"
+    graduation_year: 2024
+    relevant_coursework:
+      - "Deep Learning"
+      - "Multi-Agent AI Systems"
+      - "Hardware Lifecycle Automation"
+      - "IoT & Embedded Systems"
+      - "Renewable Energy Systems"
+
+# Work Experience
+experience:
+  - organization: "Precifarm AI Ltd"
+    role: "Founder & Systems Engineer"
+    description: |
+      Building a multi-brand engineering ecosystem including:
+      - Precifarm IDE/Studio: AI-native engineering platform for hardware + software design
+      - Neura: Consumer + technician repair intelligence layer with AR/voice guidance
+      - Imara Ecosystem: Clean-energy kits, microgrids, AI-enabled solar systems
+      
+      Architecting multi-agent AI systems with router agents, builder agents, 
+      security agents, deployment agents, and field agents for repair diagnostics.
+    start_date: "2023-01"
+    end_date: null
+    is_current: true
+    location: "Eldoret, Kenya"
+    skills_used:
+      - "Python"
+      - "TypeScript"
+      - "React Native"
+      - "Google ADK"
+      - "Vertex AI"
+      - "Multi-Agent Systems"
+      - "CAD/PCB Design"
+      - "IoT"
+    achievements:
+      - "Building Africa's first intelligence-native engineering platform"
+      - "Designing multi-agent AI architecture with typed, deterministic tools"
+      - "Integrating hardware lifecycle: design → deploy → repair → feedback"
+      - "Creating AR repair intelligence layer (Neura)"
+  
+  - organization: "SunCulture Kenya"
+    role: "Field Engineer"
+    description: |
+      Direct exposure to solar irrigation systems, pump systems, IoT telemetry, 
+      farmer operations, and field inefficiencies. This is where I diagnosed 
+      the core hardware lifecycle fragmentation problem that drove the creation 
+      of Precifarm.
+    start_date: "2021-01"
+    end_date: "2022-12"
+    is_current: false
+    location: "Kenya"
+    skills_used:
+      - "Solar Systems"
+      - "IoT Telemetry"
+      - "Pump Systems"
+      - "Field Diagnostics"
+      - "Farmer Operations"
+    achievements:
+      - "Identified hardware lifecycle fragmentation problem"
+      - "Developed field repair and maintenance expertise"
+      - "Gained deep understanding of emerging market challenges"
+
+# Skills
+skills:
+  # Programming
+  - name: "Python"
+    category: "Programming"
+    proficiency: "Expert"
+    years: 5
+  
+  - name: "TypeScript"
+    category: "Programming"
+    proficiency: "Expert"
+    years: 4
+  
+  - name: "React Native"
+    category: "Programming"
+    proficiency: "Advanced"
+    years: 3
+  
+  - name: "Next.js"
+    category: "Programming"
+    proficiency: "Advanced"
+    years: 3
+  
+  # AI & Multi-Agent Systems
+  - name: "Google ADK (Agent Development Kit)"
+    category: "AI/ML"
+    proficiency: "Expert"
+    years: 2
+  
+  - name: "Vertex AI"
+    category: "AI/ML"
+    proficiency: "Expert"
+    years: 2
+  
+  - name: "Gemini"
+    category: "AI/ML"
+    proficiency: "Expert"
+    years: 2
+  
+  - name: "GPT-4/5"
+    category: "AI/ML"
+    proficiency: "Expert"
+    years: 2
+  
+  - name: "Multi-Agent Architecture"
+    category: "AI/ML"
+    proficiency: "Expert"
+    years: 2
+  
+  - name: "Voice AI Agents"
+    category: "AI/ML"
+    proficiency: "Advanced"
+    years: 2
+  
+  - name: "Computer Vision"
+    category: "AI/ML"
+    proficiency: "Advanced"
+    years: 2
+  
+  # Hardware & IoT
+  - name: "CAD (Fusion 360)"
+    category: "Hardware"
+    proficiency: "Advanced"
+    years: 3
+  
+  - name: "KiCad / PCB Design"
+    category: "Hardware"
+    proficiency: "Advanced"
+    years: 3
+  
+  - name: "IoT Sensor Systems"
+    category: "Hardware"
+    proficiency: "Expert"
+    years: 4
+  
+  - name: "Solar/Renewable Systems"
+    category: "Hardware"
+    proficiency: "Expert"
+    years: 4
+  
+  # Infrastructure
+  - name: "GCP (Cloud Run, Vertex)"
+    category: "Infrastructure"
+    proficiency: "Expert"
+    years: 3
+  
+  - name: "Docker"
+    category: "Infrastructure"
+    proficiency: "Advanced"
+    years: 3
+  
+  - name: "Supabase"
+    category: "Infrastructure"
+    proficiency: "Advanced"
+    years: 2
+  
+  - name: "Firebase/Firestore"
+    category: "Infrastructure"
+    proficiency: "Advanced"
+    years: 3
+  
+  - name: "Modal"
+    category: "Infrastructure"
+    proficiency: "Intermediate"
+    years: 1
+  
+  # Soft Skills
+  - name: "Systems Thinking"
+    category: "Soft Skills"
+    proficiency: "Expert"
+  
+  - name: "Technical Leadership"
+    category: "Soft Skills"
+    proficiency: "Advanced"
+  
+  - name: "Rapid Execution"
+    category: "Soft Skills"
+    proficiency: "Expert"
+
+# Languages
+languages:
+  - "English (Fluent)"
+  - "Swahili (Native)"
+
+# Certifications
+certifications:
+  - "Google Cloud Professional (In Progress)"
+  - "NVIDIA CUDA Developer (Target)"
+
+# Target Programs & Awards
+target_programs:
+  - "Africa Prize for Engineering Innovation"
+  - "Google DeepMind MSc Program"
+  - "NVIDIA Inception Program"
+  - "Y Combinator"
+  - "Techstars"
+  - "500 Global"
+  - "Gates Foundation Grants"
+  - "USAID Development Grants"
+  - "AfDB Climate Innovation"
+
+# Projects
+projects:
+  - name: "Precifarm IDE / Precifarm Studio"
+    description: |
+      A web-based AI-native engineering platform that designs hardware + software, 
+      simulates behaviour, auto-generates CAD/PCB/firmware, deploys to cloud/edge, 
+      manufactures through API partners, monitors field telemetry, and integrates 
+      repair loops back into design.
+    role: "Founder & Lead Architect"
+    technologies:
+      - "Python"
+      - "TypeScript"
+      - "React"
+      - "Google ADK"
+      - "Vertex AI"
+      - "Fusion 360 API"
+    highlights:
+      - "Unified hardware + software design platform"
+      - "Multi-agent AI architecture"
+      - "Manufacturing API integration"
+      - "Field telemetry feedback loops"
+
+  - name: "Neura - Repair Intelligence OS"
+    description: |
+      Consumer + technician repair intelligence layer with realtime voice guidance, 
+      vision diagnostics, AR overlays, Ray-Ban adapter + proprietary Eon Frames, 
+      usage-based billing (AI minutes). The global repair OS.
+    role: "Founder & Product Architect"
+    technologies:
+      - "React Native"
+      - "ARKit/ARCore"
+      - "Voice AI"
+      - "Computer Vision"
+      - "WebRTC"
+    highlights:
+      - "AR-guided repair system"
+      - "Voice + vision diagnostics"
+      - "Field data integration"
+      - "Usage-based monetization"
+
+  - name: "Imara Ecosystem"
+    description: |
+      Clean-energy kits, microgrids, home energy pods, AI-enabled solar and 
+      refrigeration systems for emerging markets.
+    role: "Founder & Systems Engineer"
+    technologies:
+      - "IoT"
+      - "Solar Systems"
+      - "Energy Management"
+      - "AI Optimization"
+    highlights:
+      - "Microgrid solutions"
+      - "AI-optimized energy systems"
+      - "Climate resilience"
+
+# Personal Narrative Elements
+origin_story: |
+  My journey began in the fields of Kenya, working as a field engineer at SunCulture 
+  where I witnessed firsthand the fragmentation plaguing Africa's hardware ecosystem. 
+  Design teams in one silo, deployment in another, maintenance scattered, repair 
+  ad-hoc, and feedback loops non-existent. This systemic failure sparked my mission: 
+  to build the intelligence layer that unifies Africa's entire engineering lifecycle.
+  
+  I realized that the future isn't just about building AI — it's about building 
+  AI-native systems that span hardware, software, field operations, and human 
+  empowerment. Precifarm is that vision manifested.
+
+key_achievements:
+  - "Building Africa's first intelligence-native engineering ecosystem"
+  - "Designed multi-agent AI architecture for hardware lifecycle automation"
+  - "Created AR repair intelligence system (Neura)"
+  - "Field engineering experience with solar/IoT systems serving farmers"
+  - "Bridging hardware + software + AI into unified systems"
+
+unique_value_proposition: |
+  I am one of the rare founders who is simultaneously a field engineer, a multi-agent 
+  AI architect, a hardware designer, a mobile/AR UX engineer, a systems thinker, 
+  a growth strategist, and a sustainability-driven innovator.
+  
+  I don't just build products — I build continent-scale engineering intelligence 
+  ecosystems. My unique combination of field experience, AI architecture expertise, 
+  and hardware design skills positions me to solve problems that others can't even 
+  see clearly.
+
+career_goals: |
+  Short-term: 
+  - Launch Precifarm IDE beta with 1,000+ early users
+  - Secure funding from top-tier investors (YC, a16z, Sequoia)
+  - Deploy Neura repair intelligence to 10,000+ technicians
+  
+  Long-term:
+  - 1B renewable engineers empowered globally
+  - Multi-layered ecosystem ($4T market-cap engineering empire)
+  - Africa's leading AI-native engineering platform
+  - Transform the global repair economy
+
+# Matching Preferences
+preferences:
+  # Opportunity types
+  target_roles:
+    - "Founder"
+    - "Technical Co-Founder"
+    - "AI/ML Research Engineer"
+    - "Systems Architect"
+    - "Engineering Fellow"
+  
+  target_programs:
+    - "Y Combinator"
+    - "Techstars"
+    - "500 Global"
+    - "Google for Startups"
+    - "NVIDIA Inception"
+    - "Microsoft for Startups"
+    - "AWS Activate"
+  
+  target_grants:
+    - "Africa Prize for Engineering Innovation"
+    - "Gates Foundation"
+    - "USAID"
+    - "AfDB"
+    - "GIZ"
+    - "World Bank Climate"
+    - "Google.org"
+  
+  target_fellowships:
+    - "Google DeepMind MSc"
+    - "NVIDIA Research Fellowship"
+    - "OpenAI Research"
+    - "Anthropic Fellowship"
+    - "Schmidt Futures"
+    - "Echoing Green"
+    - "Ashoka Fellowship"
+  
+  # Location preferences
+  preferred_locations:
+    - "Kenya"
+    - "Remote"
+    - "San Francisco Bay Area"
+    - "London"
+    - "Singapore"
+  
+  open_to_remote: true
+  open_to_relocation: true
+  visa_required: true
+  
+  # Compensation (for employment opportunities)
+  min_salary: 80000
+  preferred_currency: "USD"
+  
+  # Opportunity types
+  interested_in_jobs: true
+  interested_in_fellowships: true
+  interested_in_grants: true
+  interested_in_accelerators: true
+  interested_in_research: true
+  interested_in_competitions: true
+  interested_in_hackathons: true
+  interested_in_speaking: true
+  interested_in_conferences: true
+  
+  # Focus areas
+  preferred_industries:
+    - "AI/ML"
+    - "AgriTech"
+    - "Climate Tech"
+    - "Clean Energy"
+    - "Hardware"
+    - "IoT"
+    - "AR/VR"
+    - "Developer Tools"
+    - "Emerging Markets"
+  
+  # Keywords for matching
+  matching_keywords:
+    - "multi-agent systems"
+    - "AI agents"
+    - "hardware lifecycle"
+    - "IoT"
+    - "solar"
+    - "renewable energy"
+    - "agriculture"
+    - "precision farming"
+    - "repair"
+    - "maintenance"
+    - "AR"
+    - "voice AI"
+    - "field service"
+    - "emerging markets"
+    - "Africa"
+    - "Kenya"
+    - "climate"
+    - "sustainability"
+    - "manufacturing"
+    - "PCB design"
+    - "CAD"
+    - "embedded systems"
+
+# Metadata
+version: "2.0.0"
+created_at: "2025-12-03T00:00:00Z"
+updated_at: "2025-12-03T00:00:00Z"
