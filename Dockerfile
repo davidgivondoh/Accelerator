@@ -12,16 +12,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install poetry for dependency management
-RUN pip install --no-cache-dir poetry==1.7.0
-
-# Copy dependency files
-COPY pyproject.toml poetry.lock* ./
-
-# Export dependencies to requirements.txt
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
-
-# Install dependencies
+# Copy requirements and install dependencies
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime
